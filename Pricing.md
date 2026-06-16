@@ -131,7 +131,7 @@ Mitigation:
 Later features:
 
 - Breeding calendar.
-- Litter/offpsring management.
+- Litter/offspring management.
 - Customer waitlists.
 - Contract templates.
 - Vaccination reminders.
