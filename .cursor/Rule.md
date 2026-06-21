@@ -141,6 +141,19 @@ Do not show "verified" without specifying what is verified.
 - Public listing pages must not expose phone numbers by default.
 - Analytics must not include private health details, full message text, payment proof content, or government identity documents.
 
+## Notification Consent Rules
+
+- Marketing and promotional notifications require explicit opt-in, recorded with type and version in the `consents` table.
+- SMS and email campaigns must honor stop/unsubscribe requests and respect PECA (Pakistan) and TCPA (USA) expectations.
+- Transactional notifications tied to a user's own active workflow are permitted, but notification categories and channels must be user-configurable.
+
+## Data Retention and Deletion Rules
+
+- Define retention periods per data class before launch; do not apply storage lifecycle deletion until legal and business retention requirements are set (see `Setup.md`).
+- Support user account deletion / right-to-erasure: soft-delete user-visible records, redact personal identifiers, and retain only what is legally required for financial, audit, and dispute records.
+- Financial ledger and audit entries are retained per legal/accounting requirements and are exempt from user-initiated deletion.
+- Align retention and deletion handling with applicable data-protection law (including Pakistan's draft Personal Data Protection Bill and USA state requirements); confirm with legal review before launch.
+
 ## Audit Event Requirements
 
 Audit these actions:
@@ -152,7 +165,10 @@ Audit these actions:
 - Breeding request status change.
 - Payment reconciliation.
 - Refund initiation.
-- Dispute open/close.
+- Payout approval/release.
+- Dispute open/resolve.
+- Review moderation (approve/hide).
+- Consent grant/withdrawal.
 - Admin document access.
 - RLS bypass/service-role operations.
 

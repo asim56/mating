@@ -15,7 +15,7 @@ Most existing platforms behave like classifieds: they help users post animals an
 - Verified animal profiles with ownership, health, vaccination, media, and pedigree evidence.
 - Structured breeding request workflow instead of informal calls and WhatsApp negotiation.
 - Veterinarian and inspector participation.
-- Escrow-capable payments and dispute handling.
+- Protected-payment ledger states and dispute handling. Do not describe payments as regulated escrow unless legal review approves the structure (see `.cursor/Rule.md`).
 - Breed, region, and compliance-aware recommendations.
 - Breeding history that compounds into defensible data.
 
@@ -60,7 +60,7 @@ Most existing platforms behave like classifieds: they help users post animals an
 
 ### Phase 2: Pakistan Growth
 
-- Escrow automation where provider support allows it.
+- Protected-payment hold/release automation where provider support allows it.
 - Boosted listings.
 - Subscription plans.
 - Veterinarian network.
@@ -145,7 +145,7 @@ flowchart LR
 | Matching | Search, filters, compatibility scoring, distance calculations |
 | Breeding Requests | Request lifecycle, schedule, completion, records |
 | Marketplace | Listings, boosts, featured profiles, availability windows |
-| Payments | Provider integrations, checkout, escrow, refunds |
+| Payments | Provider integrations, checkout, protected-payment holds, refunds |
 | Ledger | Immutable platform financial records |
 | Verification | KYC/KYB, animal verification, vet/inspector approvals |
 | Messaging | Conversations, messages, attachments, moderation |
@@ -185,7 +185,7 @@ Initial regions:
 - Marketplace liquidity: search-to-request conversion.
 - Trust: percentage of requests with health/pedigree evidence.
 - Transaction safety: dispute rate and resolution time.
-- Monetization: paid boosts, subscriptions, commissions, and escrow volume.
+- Monetization: paid boosts, subscriptions, commissions, and protected-payment volume.
 - Retention: breeding records created per active animal.
 
 ## Checkpoint

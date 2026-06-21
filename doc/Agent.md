@@ -26,7 +26,8 @@ The engineering agent should use these documents as the source of truth for plan
 
 ### Solution Architecture Agent
 
-- Maintains the modular monolith architecture described in `Context.md`, `IntegrationGuide.md`, and `Setup.md`.
+- Maintains the modular monolith architecture described in `.cursor/Context.md`, `doc/IntegrationGuide.md`, and `doc/Setup.md`.
+- Maintains the execution plan in `doc/DeliveryPlan.md` (milestones, module breakdown, dependencies, complexity).
 - Prevents premature microservice extraction.
 - Designs modules so future service extraction is possible around bounded contexts: identity, animals, matching, breeding, payments, communications, verification, analytics, and admin.
 
@@ -53,16 +54,17 @@ The engineering agent should use these documents as the source of truth for plan
 
 ## Development Workflow
 
-1. Read documents in this order:
-   1. `Context.md`
-   2. `MarketPlan.md`
-   3. `Features.md`
-   4. `Rule.md`
-   5. `IntegrationGuide.md`
-   6. `Setup.md`
-   7. `Integration.md`
-   8. `Pricing.md`
-   9. `Skill.md`
+1. Read documents in this order (docs live in `doc/`; rules and context live in `.cursor/`):
+   1. `.cursor/Context.md`
+   2. `doc/MarketPlan.md`
+   3. `doc/Features.md`
+   4. `.cursor/Rule.md`
+   5. `doc/IntegrationGuide.md`
+   6. `doc/DeliveryPlan.md`
+   7. `doc/Setup.md`
+   8. `doc/Integration.md`
+   9. `doc/Pricing.md`
+   10. `doc/Skill.md`
 2. Confirm the target phase:
    - MVP Pakistan.
    - Pakistan growth.
@@ -109,7 +111,7 @@ The engineering agent should use these documents as the source of truth for plan
 
 ### Checkpoint 4: Monetization
 
-- Listing boosts, subscriptions, commissions, escrow records, refunds, and invoices are represented in the data model.
+- Listing boosts, subscriptions, commissions, protected-payment ledger states, refunds, and invoices are represented in the data model.
 - Pakistan payment methods are integrated or stubbed behind stable provider interfaces.
 
 ### Checkpoint 5: Trust and Scale

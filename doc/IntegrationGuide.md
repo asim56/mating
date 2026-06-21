@@ -6,7 +6,7 @@ This guide is the primary technical blueprint for building the MVP.
 
 ## Repository Structure
 
-Recommended monorepo:
+Monorepo (authoritative; see `DeliveryPlan.md` for the canonical tree):
 
 ```text
 .
@@ -16,7 +16,7 @@ Recommended monorepo:
 │   │   ├── components/
 │   │   ├── features/
 │   │   ├── lib/
-│   │   ├── messages/
+│   │   ├── messages/            # en.json, ur.json (RTL-aware)
 │   │   └── public/
 │   └── api/
 │       ├── src/
@@ -29,29 +29,35 @@ Recommended monorepo:
 │       └── test/
 ├── packages/
 │   ├── config/
-│   ├── database/
-│   │   ├── migrations/
+│   ├── database/                # generated types + tooling refs only (not a 2nd schema)
 │   │   ├── seed/
 │   │   └── types/
 │   ├── shared/
 │   └── ui/
-├── supabase/
+├── supabase/                    # SOURCE OF TRUTH for schema
 │   ├── migrations/
 │   ├── policies/
 │   └── seed.sql
+├── docker/
 ├── .github/
 │   └── workflows/
-├── Agent.md
-├── Claude.md
-├── Context.md
-├── Features.md
-├── Integration.md
-├── MarketPlan.md
-├── Pricing.md
-├── Rule.md
-├── Setup.md
-└── Skill.md
+├── doc/                         # product/market/architecture docs
+│   ├── Agent.md
+│   ├── Claude.md
+│   ├── DeliveryPlan.md
+│   ├── Features.md
+│   ├── Integration.md
+│   ├── IntegrationGuide.md
+│   ├── MarketPlan.md
+│   ├── Pricing.md
+│   ├── Setup.md
+│   └── Skill.md
+└── .cursor/                     # agent-governing docs
+    ├── Context.md
+    └── Rule.md
 ```
+
+> Migration source of truth is `supabase/migrations/`. `packages/database/` must not contain a divergent copy of schema migrations; it holds generated types and references only.
 
 ## Backend Module Structure
 
@@ -68,6 +74,8 @@ modules/animals/
 ├── events/
 └── animals.module.ts
 ```
+
+> Module naming: `modules/system` owns the liveness/readiness endpoint (`GET /api/v1/health`). `modules/health` owns the animal clinical-records domain (vaccinations, fertility, readiness). These are different modules; do not place animal health logic under the liveness module. See `DeliveryPlan.md` for the full module breakdown.
 
 ## Database Schema
 
@@ -218,6 +226,23 @@ create table listings (
 create index listings_search_idx on listings using gin(search_vector);
 create index listings_region_species_idx on listings(region_id, status);
 
+-- Keep search_vector populated automatically; do not rely on application writes.
+create or replace function public.listings_search_vector_update()
+returns trigger
+language plpgsql
+as $$
+begin
+  new.search_vector :=
+    setweight(to_tsvector('simple', coalesce(new.title, '')), 'A') ||
+    setweight(to_tsvector('simple', coalesce(new.description, '')), 'B');
+  return new;
+end;
+$$;
+
+create trigger listings_search_vector_trg
+before insert or update of title, description on listings
+for each row execute function public.listings_search_vector_update();
+
 create table breeding_requests (
   id uuid primary key default gen_random_uuid(),
   requester_id uuid not null references profiles(id),
@@ -362,6 +387,170 @@ create table analytics_events (
 );
 ```
 
+### Trust, Engagement, and Monetization Tables
+
+These tables back bounded contexts and backend modules (`reviews`, `notifications`, `marketplace`, `payments`, `wallet-ledger`, `breeding-requests` disputes, and `users` consents) that previously had no schema.
+
+```sql
+create table disputes (
+  id uuid primary key default gen_random_uuid(),
+  request_id uuid not null references breeding_requests(id),
+  opened_by uuid not null references profiles(id),
+  assigned_to uuid references profiles(id),
+  status text not null default 'open',
+  reason_code text not null,
+  description text,
+  resolution text,
+  resolution_type text,
+  payment_intent_id uuid references payment_intents(id),
+  resolved_at timestamptz,
+  metadata jsonb not null default '{}',
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table reviews (
+  id uuid primary key default gen_random_uuid(),
+  request_id uuid not null references breeding_requests(id),
+  reviewer_id uuid not null references profiles(id),
+  subject_user_id uuid not null references profiles(id),
+  subject_animal_id uuid references animals(id),
+  rating smallint not null check (rating between 1 and 5),
+  title text,
+  body text,
+  status text not null default 'pending',
+  is_dispute_influenced boolean not null default false,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  deleted_at timestamptz,
+  unique (request_id, reviewer_id)
+);
+
+create table saved_listings (
+  user_id uuid not null references profiles(id),
+  listing_id uuid not null references listings(id),
+  created_at timestamptz not null default now(),
+  primary key (user_id, listing_id)
+);
+
+create table boost_orders (
+  id uuid primary key default gen_random_uuid(),
+  listing_id uuid not null references listings(id),
+  buyer_id uuid not null references profiles(id),
+  payment_intent_id uuid references payment_intents(id),
+  boost_type text not null,
+  status text not null default 'pending',
+  starts_at timestamptz,
+  ends_at timestamptz,
+  amount numeric(12,2) not null,
+  currency_code text not null,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table subscription_plans (
+  id uuid primary key default gen_random_uuid(),
+  region_id uuid references regions(id),
+  code text not null,
+  name text not null,
+  interval text not null,
+  amount numeric(12,2) not null,
+  currency_code text not null,
+  features jsonb not null default '{}',
+  active boolean not null default true,
+  created_at timestamptz not null default now(),
+  unique (region_id, code)
+);
+
+create table subscriptions (
+  id uuid primary key default gen_random_uuid(),
+  subscriber_id uuid not null references profiles(id),
+  plan_id uuid not null references subscription_plans(id),
+  provider text,
+  provider_reference text,
+  status text not null default 'active',
+  current_period_start timestamptz,
+  current_period_end timestamptz,
+  cancel_at_period_end boolean not null default false,
+  metadata jsonb not null default '{}',
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table payout_accounts (
+  id uuid primary key default gen_random_uuid(),
+  owner_id uuid not null references profiles(id),
+  provider text not null,
+  account_type text not null,
+  account_reference text not null,
+  status text not null default 'unverified',
+  metadata jsonb not null default '{}',
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
+create table payouts (
+  id uuid primary key default gen_random_uuid(),
+  payee_id uuid not null references profiles(id),
+  payout_account_id uuid references payout_accounts(id),
+  amount numeric(12,2) not null,
+  currency_code text not null,
+  status text not null default 'pending',
+  provider text,
+  provider_reference text,
+  idempotency_key text not null,
+  metadata jsonb not null default '{}',
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique (provider, idempotency_key)
+);
+
+create table devices (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references profiles(id),
+  platform text not null,
+  push_token text not null,
+  last_seen_at timestamptz,
+  created_at timestamptz not null default now(),
+  deleted_at timestamptz,
+  unique (user_id, push_token)
+);
+
+create table notification_preferences (
+  user_id uuid not null references profiles(id),
+  channel text not null,
+  category text not null,
+  enabled boolean not null default true,
+  updated_at timestamptz not null default now(),
+  primary key (user_id, channel, category)
+);
+
+create table notification_logs (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references profiles(id),
+  channel text not null,
+  template text not null,
+  status text not null default 'queued',
+  provider_reference text,
+  error text,
+  metadata jsonb not null default '{}',
+  created_at timestamptz not null default now()
+);
+
+create table consents (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references profiles(id),
+  consent_type text not null,
+  version text not null,
+  granted boolean not null,
+  source text,
+  ip_address inet,
+  created_at timestamptz not null default now()
+);
+```
+
+> Reliability note: because queues are deferred to the scaling phase (`Context.md` Phase 4), payment and notification side effects should be written through a transactional outbox in the same DB transaction as the state change, then drained by a scheduled worker. See `DeliveryPlan.md` risks.
+
 ## Row Level Security
 
 Enable RLS for all user-owned tables.
@@ -463,6 +652,59 @@ Use service role only through the API for admin workflows, payments, and cross-u
 | GET | `/api/v1/conversations/:id/messages` | List messages |
 | POST | `/api/v1/conversations/:id/messages` | Send message |
 | POST | `/api/v1/messages/:id/report` | Report message |
+
+### Disputes
+
+| Method | Path | Description |
+| --- | --- | --- |
+| GET | `/api/v1/admin/disputes` | Dispute queue |
+| GET | `/api/v1/disputes/:id` | Dispute detail (participant/support) |
+| POST | `/api/v1/admin/disputes/:id/assign` | Assign to support agent |
+| POST | `/api/v1/admin/disputes/:id/resolve` | Resolve with reason/resolution code |
+
+### Reviews
+
+| Method | Path | Description |
+| --- | --- | --- |
+| POST | `/api/v1/reviews` | Create review (after eligible completed request) |
+| GET | `/api/v1/reviews` | List reviews for a user or animal |
+| PATCH | `/api/v1/reviews/:id` | Edit own review within window |
+| POST | `/api/v1/admin/reviews/:id/moderate` | Approve/hide review |
+
+### Saved Listings
+
+| Method | Path | Description |
+| --- | --- | --- |
+| GET | `/api/v1/saved-listings` | List saved listings |
+| POST | `/api/v1/saved-listings` | Save a listing |
+| DELETE | `/api/v1/saved-listings/:listingId` | Remove saved listing |
+
+### Subscriptions and Boosts
+
+| Method | Path | Description |
+| --- | --- | --- |
+| GET | `/api/v1/subscription-plans` | List plans for region |
+| POST | `/api/v1/subscriptions` | Subscribe to a plan |
+| GET | `/api/v1/subscriptions/me` | Current user subscription |
+| POST | `/api/v1/subscriptions/:id/cancel` | Cancel at period end |
+| GET | `/api/v1/boost-orders` | List own boost orders |
+
+### Notifications and Devices
+
+| Method | Path | Description |
+| --- | --- | --- |
+| GET | `/api/v1/me/notification-preferences` | Get preferences |
+| PATCH | `/api/v1/me/notification-preferences` | Update per channel/category |
+| POST | `/api/v1/devices` | Register push device token |
+| DELETE | `/api/v1/devices/:id` | Remove device token |
+
+### Payouts
+
+| Method | Path | Description |
+| --- | --- | --- |
+| GET | `/api/v1/payouts` | List own payouts |
+| POST | `/api/v1/payout-accounts` | Add payout account |
+| POST | `/api/v1/admin/payouts/:id/approve` | Approve/release payout |
 
 ## Example DTO
 

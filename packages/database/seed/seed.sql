@@ -1,0 +1,2 @@
+-- Seed data placeholder.
+-- Region and breed seeds will be added with the first business migrations.

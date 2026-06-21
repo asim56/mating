@@ -54,6 +54,7 @@ packages/
 Backend modules:
 
 ```text
+system
 identity
 users
 animals
@@ -74,13 +75,15 @@ admin
 audit
 ```
 
+Module naming: `system` owns the liveness/readiness endpoint (`GET /api/v1/health`); `health` owns the animal clinical-records domain. Do not conflate them. See `doc/DeliveryPlan.md` for the full module breakdown.
+
 ## API Rules
 
 - Prefix APIs with `/api/v1`.
 - Publish OpenAPI/Swagger.
 - Use DTO validation.
 - Use cursor pagination for marketplace feeds and search results.
-- Use idempotency keys for payment, escrow, refund, and completion endpoints.
+- Use idempotency keys for payment, protected-payment hold/release, refund, payout, and completion endpoints.
 - Use stable status enums for breeding and payment workflows.
 - Do not expose internal Supabase keys to the client.
 
@@ -98,11 +101,12 @@ audit
 
 When implementing a feature, update:
 
-- `Features.md` if user behavior changes.
-- `IntegrationGuide.md` if API, schema, or architecture changes.
-- `Integration.md` if external providers change.
-- `Rule.md` if a business rule, compliance rule, or development standard changes.
-- `Setup.md` if local, deployment, or environment setup changes.
+- `doc/Features.md` if user behavior changes.
+- `doc/IntegrationGuide.md` if API, schema, or architecture changes.
+- `doc/DeliveryPlan.md` if milestones, module scope, dependencies, or estimates change.
+- `doc/Integration.md` if external providers change.
+- `.cursor/Rule.md` if a business rule, compliance rule, or development standard changes.
+- `doc/Setup.md` if local, deployment, or environment setup changes.
 
 ## Definition of Done
 

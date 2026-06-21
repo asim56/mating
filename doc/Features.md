@@ -78,6 +78,19 @@ Capabilities:
 - Trigger refunds according to policy.
 - Escalate fraud and welfare concerns.
 
+### Field Onboarding Representative
+
+Field reps support assisted onboarding for low-digital-literacy supply (see `MarketPlan.md` go-to-market).
+
+Capabilities:
+
+- Create or assist animal/breeder profiles on behalf of an owner with consent.
+- Capture media and documents during field visits.
+- Submit profiles into the verification queue.
+- Cannot manage payments, payouts, or disputes.
+
+This role can be implemented as a scoped variant of Support for MVP; track field-created records for attribution and audit.
+
 ## RBAC Matrix
 
 | Feature | Admin | Support | Breeder | Owner | Vet | Inspector | Buyer |
@@ -90,6 +103,9 @@ Capabilities:
 | Accept request | Yes | No | Yes if recipient | Yes if recipient | No | No | No |
 | Manage payments | Yes | Limited | Own payouts | Own payments | No | No | No |
 | Moderate content | Yes | Yes | No | No | No | No | No |
+| Save listing | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
+| Leave review | Yes | No | Yes if participant | Yes if participant | No | No | No |
+| Manage disputes | Yes | Yes | Own only | Own only | No | No | No |
 | View audit logs | Yes | Limited | No | No | No | No | No |
 
 ## Authentication
@@ -279,6 +295,17 @@ stateDiagram-v2
 - Rejected.
 - Suspended.
 
+### Saved Listings
+
+- Authenticated users can save/unsave active listings.
+- Saved listings appear in the user dashboard.
+- Saving emits an analytics event and may inform recommendations later.
+
+### Acceptance Criteria
+
+- A user can save and remove a listing; the action is idempotent.
+- Soft-deleted or suspended listings do not appear in the saved list.
+
 ## Payments
 
 ### Pakistan MVP
@@ -303,7 +330,7 @@ stateDiagram-v2
 - Boost fee.
 - Commission.
 - Refund.
-- Escrow ledger.
+- Protected-payment ledger states.
 - Payout.
 
 ### Ledger Rule
@@ -325,6 +352,40 @@ Every payment provider event must map to immutable ledger entries. Do not calcul
 - Hide phone numbers until a request reaches accepted or scheduled state, unless regional policy permits earlier sharing.
 - Log reported messages.
 - Allow support to freeze conversation in disputes.
+
+### Notification Preferences and Consent
+
+- Users can manage notifications per channel (email, SMS, push) and category (requests, payments, verification, messages, marketing).
+- Marketing/promotional messages require explicit opt-in; consent is recorded (see `consents` table) to satisfy PECA (Pakistan) and TCPA (USA) expectations.
+- Every SMS/email includes an unsubscribe or stop path where legally required.
+- Transactional notifications tied to a user's own active workflow cannot be silently dropped, but the user is told which categories are non-optional.
+
+## Reviews and Reputation
+
+### MVP
+
+- A reviewer can rate the counterparty after an eligible completed breeding request.
+- Reviews include a 1-5 rating and optional title/body.
+- One review per reviewer per request.
+- Reputation surfaces alongside verification badges and completion count; badges and completion weigh more than raw stars (see `.cursor/Rule.md`).
+
+### Safety
+
+- Disputed transactions do not immediately publish negative reputation until support review.
+- Support can moderate (approve/hide) reviews.
+
+### Acceptance Criteria
+
+- A review can only be created after a completed request (or support-approved exception).
+- Hidden/soft-deleted reviews do not affect public reputation.
+- Creating a review emits an audit-relevant event.
+
+## Localization and Accessibility
+
+- All UI copy uses translation keys (English and Urdu).
+- Urdu renders right-to-left; layouts, components, and the design system must support RTL from the start.
+- Notification and email templates are localized per region/locale, not English-only.
+- Screens meet baseline accessibility (semantic markup, focus states, adequate contrast).
 
 ## Analytics
 
@@ -378,8 +439,11 @@ Every payment provider event must map to immutable ledger entries. Do not calcul
 - Animal profiles.
 - Media and documents.
 - Search and filters.
+- Saved listings.
 - Breeding request lifecycle.
 - Basic messaging.
+- Notification preferences and consent.
+- Reviews and reputation.
 - Manual plus provider-ready payments.
 - Verification queue.
 - Admin dashboard.

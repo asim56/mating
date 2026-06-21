@@ -1,0 +1,4 @@
+/**
+ * Feature modules follow a colocated structure:
+ * features/<domain>/components, hooks, api, types
+ */

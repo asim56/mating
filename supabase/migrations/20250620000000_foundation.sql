@@ -1,0 +1,15 @@
+-- Foundation migration: extensions and shared utilities only.
+-- Business tables are added in subsequent feature migrations.
+
+create extension if not exists "pgcrypto";
+create extension if not exists "uuid-ossp";
+
+create or replace function public.set_updated_at()
+returns trigger
+language plpgsql
+as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$;
