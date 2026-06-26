@@ -21,6 +21,10 @@
     "./integrations": {
       "types": "./dist/integrations/index.d.ts",
       "default": "./dist/integrations/index.js"
+    },
+    "./config": {
+      "types": "./dist/config/index.d.ts",
+      "default": "./dist/config/index.js"
     }
   },
   "scripts": {

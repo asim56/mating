@@ -23,6 +23,8 @@ export const BREEDING_METHODS = [
   'record_only',
 ] as const;
 
+export const SPECIES = ['cattle', 'buffalo', 'goat', 'sheep', 'dog'] as const;
+
 export const STORAGE_BUCKETS = [
   'animal-media',
   'health-records',

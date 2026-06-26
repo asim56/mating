@@ -1,4 +1,4 @@
-import { CanActivate, ExecutionContext, HttpStatus, Injectable } from '@nestjs/common';
+import { CanActivate, ExecutionContext, HttpStatus, Injectable, Optional } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
 import type { UserRole } from '@mating/shared';
@@ -56,7 +56,9 @@ export class StructuralTokenVerifier implements TokenVerifier {
 export class JwtAuthGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
-    private readonly verifier: TokenVerifier = new StructuralTokenVerifier(),
+    // Optional so Nest can construct the guard via DI; the structural verifier is
+    // the runtime default until JWKS verification is injected (IDENTITY-01).
+    @Optional() private readonly verifier: TokenVerifier = new StructuralTokenVerifier(),
   ) {}
 
   canActivate(context: ExecutionContext): boolean {

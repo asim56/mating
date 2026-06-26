@@ -99,7 +99,10 @@ supabase db reset
 supabase migration new <name>
 ```
 
-Foundation migration: `supabase/migrations/20250620000000_foundation.sql` (extensions and `updated_at` helper only).
+Migrations:
+
+- `supabase/migrations/20250620000000_foundation.sql` — extensions and `updated_at` helper.
+- `supabase/migrations/20250701000000_regions.sql` — `regions` table (RLS: active regions are public-readable) seeded via `supabase/seed.sql`.
 
 ## Docker
 
@@ -141,6 +144,7 @@ Zod schemas for web and API environment variables with safe parsing helpers.
 - API constants (`API_PREFIX`, roles, breeding methods, storage buckets)
 - Pagination and error types
 - Provider interfaces (`PaymentProvider`, `NotificationProvider`, `StorageProvider`) per `doc/Integration.md`
+- Canonical region configuration (`@mating/shared/config`): typed eligibility + compliance accessors (`getRegionConfig`, `getSpeciesEligibility`) and the seeded `REGION_DEFINITIONS` — the single source of truth shared by the `regions` seed and the API
 
 ### `@mating/database`
 
@@ -161,6 +165,21 @@ Cross-cutting primitives every feature module builds on:
 - **Auth/RBAC scaffolding** — JWT guard, role guard (`@Roles`), `@Public`, and an ownership-policy base class (no business logic yet).
 
 A reusable RBAC + state-transition test harness lives in `apps/api/test/harness/`.
+
+## Feature Modules
+
+### `config/regions` (M1)
+
+Region, currency, locale, and the eligibility + compliance configuration consumed by later region-scoped features. Migration: `supabase/migrations/20250701000000_regions.sql`; seed: `supabase/seed.sql` (Pakistan active; United States staged inactive for Phase 3). The seeded `regions.config` jsonb mirrors `@mating/shared/config`.
+
+| Method  | Path                          | Access      | Description                                                |
+| ------- | ----------------------------- | ----------- | ---------------------------------------------------------- |
+| `GET`   | `/api/v1/regions`             | Public      | Active regions (currency, locale, payment methods)         |
+| `GET`   | `/api/v1/admin/regions`       | super_admin | All regions with full configuration                        |
+| `GET`   | `/api/v1/admin/regions/:code` | super_admin | Single region with full configuration                      |
+| `PATCH` | `/api/v1/admin/regions/:code` | super_admin | Update region config; emits a `region.updated` audit event |
+
+Admin routes require the `super_admin` role (`403` otherwise); region configuration (eligibility/compliance) is never exposed on the public endpoint.
 
 ## Documentation
 

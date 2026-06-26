@@ -25,6 +25,365 @@
           "health"
         ]
       }
+    },
+    "/api/v1/regions": {
+      "get": {
+        "operationId": "RegionsController_list",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RegionPublicDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "List active regions (public reference data)",
+        "tags": [
+          "regions"
+        ]
+      }
+    },
+    "/api/v1/admin/regions": {
+      "get": {
+        "operationId": "AdminRegionsController_listAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RegionDto"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller lacks the super_admin role"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "List all regions with full configuration (admin)",
+        "tags": [
+          "admin/regions"
+        ]
+      }
+    },
+    "/api/v1/admin/regions/{code}": {
+      "get": {
+        "operationId": "AdminRegionsController_getOne",
+        "parameters": [
+          {
+            "name": "code",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegionDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Region not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get a single region by code (admin)",
+        "tags": [
+          "admin/regions"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminRegionsController_update",
+        "parameters": [
+          {
+            "name": "code",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRegionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegionDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Region not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update region configuration (admin); emits an audit event",
+        "tags": [
+          "admin/regions"
+        ]
+      }
+    },
+    "/api/v1/breeds": {
+      "get": {
+        "operationId": "BreedsController_list",
+        "parameters": [
+          {
+            "name": "regionCode",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": "PK",
+              "type": "string",
+              "enum": [
+                "PK",
+                "US"
+              ]
+            }
+          },
+          {
+            "name": "species",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "example": "cattle",
+              "type": "string",
+              "enum": [
+                "cattle",
+                "buffalo",
+                "goat",
+                "sheep",
+                "dog"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BreedPublicDto"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "List active breeds (public reference data)",
+        "tags": [
+          "breeds"
+        ]
+      }
+    },
+    "/api/v1/admin/breeds": {
+      "get": {
+        "operationId": "AdminBreedsController_listAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BreedDto"
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Caller lacks the super_admin role"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "List all breeds including inactive (admin)",
+        "tags": [
+          "admin/breeds"
+        ]
+      },
+      "post": {
+        "operationId": "AdminBreedsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBreedDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BreedDto"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Breed already exists for the species and region"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Create a breed (admin); emits an audit event",
+        "tags": [
+          "admin/breeds"
+        ]
+      }
+    },
+    "/api/v1/admin/breeds/{id}": {
+      "get": {
+        "operationId": "AdminBreedsController_getOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BreedDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Breed not found"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get a single breed by id (admin)",
+        "tags": [
+          "admin/breeds"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminBreedsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBreedDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BreedDto"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Breed not found"
+          },
+          "409": {
+            "description": "Renaming collides with an existing breed"
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update a breed (admin); emits an audit event",
+        "tags": [
+          "admin/breeds"
+        ]
+      }
     }
   },
   "info": {
@@ -102,6 +461,283 @@
           "uptimeSeconds",
           "checks"
         ]
+      },
+      "RegionPublicDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "PK"
+          },
+          "name": {
+            "type": "string",
+            "example": "Pakistan"
+          },
+          "currencyCode": {
+            "type": "string",
+            "example": "PKR"
+          },
+          "defaultLocale": {
+            "type": "string",
+            "example": "en"
+          },
+          "locales": {
+            "example": [
+              "en",
+              "ur"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "paymentMethods": {
+            "example": [
+              "easypaisa",
+              "jazzcash",
+              "bank_transfer"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "code",
+          "name",
+          "currencyCode",
+          "defaultLocale",
+          "locales",
+          "paymentMethods"
+        ]
+      },
+      "RegionDto": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "PK"
+          },
+          "name": {
+            "type": "string",
+            "example": "Pakistan"
+          },
+          "currencyCode": {
+            "type": "string",
+            "example": "PKR"
+          },
+          "defaultLocale": {
+            "type": "string",
+            "example": "en"
+          },
+          "locales": {
+            "example": [
+              "en",
+              "ur"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "active": {
+            "type": "boolean",
+            "example": true
+          },
+          "config": {
+            "type": "object",
+            "description": "Eligibility (min age/health by species) + compliance + payment methods"
+          }
+        },
+        "required": [
+          "code",
+          "name",
+          "currencyCode",
+          "defaultLocale",
+          "locales",
+          "active",
+          "config"
+        ]
+      },
+      "UpdateRegionDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Pakistan",
+            "description": "Human-readable region name"
+          },
+          "defaultLocale": {
+            "type": "string",
+            "example": "en",
+            "description": "Default locale for the region"
+          },
+          "locales": {
+            "example": [
+              "en",
+              "ur"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Whether the region is active/launched"
+          },
+          "config": {
+            "type": "object",
+            "description": "Eligibility + compliance + payment config (merged over existing)"
+          }
+        }
+      },
+      "BreedPublicDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "regionCode": {
+            "type": "string",
+            "example": "PK"
+          },
+          "species": {
+            "type": "string",
+            "enum": [
+              "cattle",
+              "buffalo",
+              "goat",
+              "sheep",
+              "dog"
+            ],
+            "example": "cattle"
+          },
+          "name": {
+            "type": "string",
+            "example": "Sahiwal"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "example": "Heat-tolerant dairy breed."
+          }
+        },
+        "required": [
+          "id",
+          "regionCode",
+          "species",
+          "name",
+          "description"
+        ]
+      },
+      "BreedDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "regionCode": {
+            "type": "string",
+            "example": "PK"
+          },
+          "species": {
+            "type": "string",
+            "enum": [
+              "cattle",
+              "buffalo",
+              "goat",
+              "sheep",
+              "dog"
+            ],
+            "example": "cattle"
+          },
+          "name": {
+            "type": "string",
+            "example": "Sahiwal"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "example": "Heat-tolerant dairy breed."
+          },
+          "active": {
+            "type": "boolean",
+            "example": true
+          }
+        },
+        "required": [
+          "id",
+          "regionCode",
+          "species",
+          "name",
+          "description",
+          "active"
+        ]
+      },
+      "CreateBreedDto": {
+        "type": "object",
+        "properties": {
+          "regionCode": {
+            "type": "string",
+            "enum": [
+              "PK",
+              "US"
+            ],
+            "example": "PK"
+          },
+          "species": {
+            "type": "string",
+            "enum": [
+              "cattle",
+              "buffalo",
+              "goat",
+              "sheep",
+              "dog"
+            ],
+            "example": "cattle"
+          },
+          "name": {
+            "type": "string",
+            "example": "Sahiwal",
+            "description": "Breed name; unique per species and region"
+          },
+          "description": {
+            "type": "string",
+            "example": "Heat-tolerant dairy breed from the Punjab region."
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Whether the breed is selectable",
+            "default": true
+          }
+        },
+        "required": [
+          "regionCode",
+          "species",
+          "name"
+        ]
+      },
+      "UpdateBreedDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "Sahiwal",
+            "description": "Breed name (unique per species/region)"
+          },
+          "description": {
+            "type": "string",
+            "example": "Heat-tolerant dairy breed from the Punjab region."
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Whether the breed is selectable"
+          }
+        }
       }
     }
   }

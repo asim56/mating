@@ -1,8 +1,9 @@
-import type { BREEDING_METHODS, REGIONS, USER_ROLES } from '../constants';
+import type { BREEDING_METHODS, REGIONS, SPECIES, USER_ROLES } from '../constants';
 
 export type RegionCode = keyof typeof REGIONS;
 export type UserRole = (typeof USER_ROLES)[number];
 export type BreedingMethod = (typeof BREEDING_METHODS)[number];
+export type Species = (typeof SPECIES)[number];
 
 export type CursorPaginationParams = {
   cursor?: string;
