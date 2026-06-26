@@ -10,9 +10,11 @@ export const metadata: Metadata = {
   description: 'Verified animal breeding marketplace — Pakistan-first, USA-ready',
 };
 
+// `lang`/`dir` default to the LTR base locale and are updated per-locale at
+// runtime by the LocaleProvider; suppress the resulting hydration diff.
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" dir="ltr" suppressHydrationWarning>
       <body className={inter.className}>{children}</body>
     </html>
   );

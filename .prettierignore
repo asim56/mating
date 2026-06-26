@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.next/
+.turbo/
+out/
+build/
+coverage/
+pnpm-lock.yaml
+
+# Generated from the Nest application graph; must match the generator's output
+# exactly so the CI drift gate (scripts/validate-openapi.sh) stays meaningful.
+apps/api/openapi.json

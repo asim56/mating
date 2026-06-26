@@ -4,14 +4,14 @@ Pakistan-first animal breeding marketplace monorepo. This repository ships the *
 
 ## Stack
 
-| Layer | Technology |
-| --- | --- |
-| Web | Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS |
-| API | NestJS 11, REST `/api/v1`, OpenAPI/Swagger |
-| Database | Supabase PostgreSQL, migrations, RLS |
-| State (web) | React Query, Zustand |
-| Monorepo | pnpm workspaces, Turborepo |
-| Deploy target | Vercel (web + API), Supabase |
+| Layer         | Technology                                                               |
+| ------------- | ------------------------------------------------------------------------ |
+| Web           | Next.js 15 (App Router), React 19, TypeScript, Tailwind CSS              |
+| API           | NestJS 11, REST `/api/v1`, OpenAPI/Swagger                               |
+| Database      | Supabase PostgreSQL, migrations, RLS                                     |
+| State (web)   | React Query, Zustand                                                     |
+| Monorepo      | pnpm workspaces, Turborepo                                               |
+| Deploy target | `web` → Vercel; `api` → long-running host (Railway/Render/Fly); Supabase |
 
 ## Repository Structure
 
@@ -54,12 +54,14 @@ cp .env.example .env
 pnpm dev
 ```
 
-| Service | URL |
-| --- | --- |
-| Web | http://localhost:3000 |
-| API | http://localhost:4000 |
-| API docs (Swagger) | http://localhost:4000/docs |
-| Health check | http://localhost:4000/api/v1/health |
+| Service            | URL                                 |
+| ------------------ | ----------------------------------- |
+| Web                | http://localhost:3000               |
+| API                | http://localhost:4000               |
+| API docs (Swagger) | http://localhost:4000/docs          |
+| Health check       | http://localhost:4000/api/v1/health |
+
+The health endpoint reports version and dependency readiness; it returns `503` when the database is unreachable.
 
 ## Commands
 
@@ -121,10 +123,12 @@ GitHub Actions workflow (`.github/workflows/ci.yml`) runs on pull requests and p
 3. Lint and typecheck
 4. Unit tests
 5. Build web and API
-6. Validate SQL migrations
-7. Verify OpenAPI scaffold
+6. Validate SQL migrations (`scripts/validate-migrations.sh`)
+7. Validate the OpenAPI document and fail on drift (`scripts/validate-openapi.sh`)
 
-Deployment target: Vercel preview on PR, staging/production on `main` (configure in Vercel).
+The OpenAPI document is generated from the live Nest application graph via `pnpm --filter @mating/api openapi:export` and committed at `apps/api/openapi.json`; CI regenerates it and fails if it drifts.
+
+Deployment target: `web` to Vercel (preview on PR, staging/production on `main`); `api` to a long-running host. See `doc/Setup.md` → "API Hosting Decision".
 
 ## Shared Libraries
 
@@ -144,19 +148,35 @@ Placeholder for generated Supabase types and migration tooling references.
 
 ### `@mating/ui`
 
-Shared React components (e.g. `Button`) consumed by the web app.
+Shared, RTL-aware React primitives: `Button` plus the four async UI states (`LoadingState`, `EmptyState`, `ErrorState`, and the `DataState` switch) consumed across the web app.
+
+## API Platform Conventions (`apps/api/src/common`)
+
+Cross-cutting primitives every feature module builds on:
+
+- **Stable error contract** — all errors serialize to `{ code, message, details? }` via a global exception filter; codes live in `common/errors/error-codes.ts`.
+- **Validation** — global pipe strips/rejects unknown fields and returns `VALIDATION_FAILED` with per-field details.
+- **Cursor pagination** — `common/pagination` returns `{ data, meta: { nextCursor, hasMore } }`.
+- **Rate limiting** — per-category matrix (auth/search/messaging/request-creation) in `common/rate-limit`, returning `429` with a retry hint.
+- **Auth/RBAC scaffolding** — JWT guard, role guard (`@Roles`), `@Public`, and an ownership-policy base class (no business logic yet).
+
+A reusable RBAC + state-transition test harness lives in `apps/api/test/harness/`.
 
 ## Documentation
 
 Read in this order before implementing features:
 
-1. [`doc/Context.md`](doc/Context.md) — business context and architecture
+1. [`.cursor/Context.md`](.cursor/Context.md) — business context and architecture
 2. [`doc/Features.md`](doc/Features.md) — product scope and RBAC
 3. [`.cursor/Rule.md`](.cursor/Rule.md) — development and business rules
-4. [`doc/IntegrationGuide.md`](doc/IntegrationGuide.md) — schema, API contracts, module structure
-5. [`doc/Integration.md`](doc/Integration.md) — external providers
-6. [`doc/Setup.md`](doc/Setup.md) — deployment, observability, DR
-7. [`doc/Agent.md`](doc/Agent.md) — agent workflow and checkpoints
+4. [`doc/Claude.md`](doc/Claude.md) — engineering standards and Definition of Done
+5. [`doc/IntegrationGuide.md`](doc/IntegrationGuide.md) — schema, API contracts, module structure
+6. [`doc/Integration.md`](doc/Integration.md) — external providers
+7. [`doc/Setup.md`](doc/Setup.md) — deployment, observability, DR
+8. [`doc/Agent.md`](doc/Agent.md) — agent workflow and checkpoints
+9. [`doc/MarketPlan.md`](doc/MarketPlan.md) — business strategy and the business risk register
+
+Engineering execution is planned in [`doc/ImplementationPlan.md`](doc/ImplementationPlan.md) (source of truth) and sequenced into PRs in [`doc/ExecutionBacklog.md`](doc/ExecutionBacklog.md). [`doc/DeliveryPlan.md`](doc/DeliveryPlan.md) is **deprecated** and superseded by `ImplementationPlan.md`.
 
 ## What's Included (Foundation)
 

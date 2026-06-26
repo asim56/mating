@@ -1,5 +1,15 @@
 {
-  "ur": {
-    "app.name": "مating Marketplace"
-  }
+  "app.name": "میٹنگ مارکیٹ پلیس",
+  "app.tagline": "تصدیق شدہ جانوروں کی افزائش نسل کا بازار — پاکستان پہلے، امریکہ کے لیے تیار",
+  "app.foundationReady": "بنیاد تیار ہے",
+  "app.heading": "جانوروں کی افزائش نسل کا بازار",
+  "app.description": "پاکستان کو ترجیح دینے والے افزائش نسل پلیٹ فارم کے لیے مونو ریپو ڈھانچہ۔ کاروباری خصوصیات اگلے مراحل میں شامل کی جائیں گی۔",
+  "actions.getStarted": "شروع کریں",
+  "actions.retry": "دوبارہ کوشش کریں",
+  "locale.switch": "English",
+  "state.loading": "لوڈ ہو رہا ہے…",
+  "state.empty.title": "ابھی یہاں کچھ نہیں ہے",
+  "state.empty.description": "دکھانے کے لیے کوئی ڈیٹا موجود نہیں۔",
+  "state.error.title": "کچھ غلط ہو گیا",
+  "state.error.description": "ایک غیر متوقع خرابی پیش آئی۔ براہ کرم دوبارہ کوشش کریں۔"
 }

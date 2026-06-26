@@ -1,0 +1,108 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "operationId": "HealthController_getHealth",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "All dependencies reachable",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponseDto"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "A required dependency is unreachable"
+          }
+        },
+        "summary": "Liveness + readiness check with version and dependency status",
+        "tags": [
+          "health"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Mating Marketplace API",
+    "description": "REST API for the animal breeding marketplace",
+    "version": "0.0.1",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "HealthChecksDto": {
+        "type": "object",
+        "properties": {
+          "database": {
+            "type": "string",
+            "enum": [
+              "up",
+              "down"
+            ],
+            "description": "Database reachability"
+          }
+        },
+        "required": [
+          "database"
+        ]
+      },
+      "HealthResponseDto": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "ok",
+              "degraded"
+            ],
+            "example": "ok",
+            "description": "'ok' when all dependencies are reachable"
+          },
+          "service": {
+            "type": "string",
+            "example": "api"
+          },
+          "version": {
+            "type": "string",
+            "example": "0.0.1",
+            "description": "Deployed API version"
+          },
+          "timestamp": {
+            "type": "string",
+            "example": "2026-06-21T08:00:00.000Z"
+          },
+          "uptimeSeconds": {
+            "type": "number",
+            "example": 12.34,
+            "description": "Process uptime in seconds"
+          },
+          "checks": {
+            "$ref": "#/components/schemas/HealthChecksDto"
+          }
+        },
+        "required": [
+          "status",
+          "service",
+          "version",
+          "timestamp",
+          "uptimeSeconds",
+          "checks"
+        ]
+      }
+    }
+  }
+}

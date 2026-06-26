@@ -4,22 +4,26 @@
 
 All external services must be wrapped behind internal provider interfaces. The application should not leak provider-specific request or response structures into domain services.
 
+## Hosting Topology
+
+The `web` app deploys to **Vercel**; the `api` (NestJS) deploys to a **long-running host** (Railway / Render / Fly.io) rather than Vercel serverless. This is required for reliable payment-webhook handling and the transactional outbox drainer, and keeps the Supabase service-role key isolated to the server. See `doc/Setup.md` → "API Hosting Decision" for the full rationale.
+
 ## Primary Providers
 
-| Capability | MVP Provider | Phase 2 Provider | Notes |
-| --- | --- | --- | --- |
-| Auth | Supabase Auth | Supabase Auth or dedicated identity service | Abstract auth claims and role mapping |
-| Database | Supabase PostgreSQL | Supabase PostgreSQL / managed Postgres | Keep migrations portable |
-| Storage | Supabase Storage | Supabase Storage or S3-compatible | Use signed URLs |
-| Realtime | Supabase Realtime | Dedicated websocket service if needed | MVP chat can start here |
-| Email | Resend | Resend | Transactional templates |
-| SMS | Twilio or local aggregator | Twilio | Pakistan SMS deliverability must be validated |
-| Push | Firebase Cloud Messaging | FCM | PWA and future native apps |
-| Pakistan Payments | Easypaisa, JazzCash, bank transfer | Same plus Raast-enabled options | Provider availability and merchant approval required |
-| USA Payments | Not MVP | Stripe | Stripe Connect for payouts |
-| Analytics | PostHog | PostHog plus warehouse later | Track funnel events |
-| Error Monitoring | Sentry | Sentry | Frontend and backend |
-| Web Analytics | Vercel Analytics | Vercel Analytics | Page-level performance |
+| Capability        | MVP Provider                       | Phase 2 Provider                            | Notes                                                |
+| ----------------- | ---------------------------------- | ------------------------------------------- | ---------------------------------------------------- |
+| Auth              | Supabase Auth                      | Supabase Auth or dedicated identity service | Abstract auth claims and role mapping                |
+| Database          | Supabase PostgreSQL                | Supabase PostgreSQL / managed Postgres      | Keep migrations portable                             |
+| Storage           | Supabase Storage                   | Supabase Storage or S3-compatible           | Use signed URLs                                      |
+| Realtime          | Supabase Realtime                  | Dedicated websocket service if needed       | MVP chat can start here                              |
+| Email             | Resend                             | Resend                                      | Transactional templates                              |
+| SMS               | Twilio or local aggregator         | Twilio                                      | Pakistan SMS deliverability must be validated        |
+| Push              | Firebase Cloud Messaging           | FCM                                         | PWA and future native apps                           |
+| Pakistan Payments | Easypaisa, JazzCash, bank transfer | Same plus Raast-enabled options             | Provider availability and merchant approval required |
+| USA Payments      | Not MVP                            | Stripe                                      | Stripe Connect for payouts                           |
+| Analytics         | PostHog                            | PostHog plus warehouse later                | Track funnel events                                  |
+| Error Monitoring  | Sentry                             | Sentry                                      | Frontend and backend                                 |
+| Web Analytics     | Vercel Analytics                   | Vercel Analytics                            | Page-level performance                               |
 
 ## Supabase
 
@@ -33,13 +37,13 @@ All external services must be wrapped behind internal provider interfaces. The a
 
 ### Buckets
 
-| Bucket | Access | Contents |
-| --- | --- | --- |
-| `animal-media` | Public thumbnails, signed originals | Animal images and videos |
-| `health-records` | Private signed URLs | Vet certificates, lab results |
-| `pedigree-documents` | Private signed URLs | Registration and lineage documents |
-| `payment-proofs` | Private signed URLs | Bank transfer receipts |
-| `verification-evidence` | Private signed URLs | Inspector and identity evidence |
+| Bucket                  | Access                              | Contents                           |
+| ----------------------- | ----------------------------------- | ---------------------------------- |
+| `animal-media`          | Public thumbnails, signed originals | Animal images and videos           |
+| `health-records`        | Private signed URLs                 | Vet certificates, lab results      |
+| `pedigree-documents`    | Private signed URLs                 | Registration and lineage documents |
+| `payment-proofs`        | Private signed URLs                 | Bank transfer receipts             |
+| `verification-evidence` | Private signed URLs                 | Inspector and identity evidence    |
 
 ### Storage Rules
 
@@ -162,4 +166,3 @@ export interface StorageProvider {
 ## Checkpoint
 
 No domain service should import a payment, email, SMS, storage, or analytics SDK directly. Integrations must be swappable by region and environment.
-

@@ -1,8 +1,15 @@
 {
-  "en": {
-    "app.name": "Mating Marketplace"
-  },
-  "ur": {
-    "app.name": "مating Marketplace"
-  }
+  "app.name": "Mating Marketplace",
+  "app.tagline": "Verified animal breeding marketplace — Pakistan-first, USA-ready",
+  "app.foundationReady": "Foundation ready",
+  "app.heading": "Animal Breeding Marketplace",
+  "app.description": "Monorepo scaffold for a Pakistan-first breeding platform. Business features are implemented in subsequent checkpoints.",
+  "actions.getStarted": "Get started",
+  "actions.retry": "Try again",
+  "locale.switch": "اردو",
+  "state.loading": "Loading…",
+  "state.empty.title": "Nothing here yet",
+  "state.empty.description": "There is no data to display.",
+  "state.error.title": "Something went wrong",
+  "state.error.description": "An unexpected error occurred. Please try again."
 }

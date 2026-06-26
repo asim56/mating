@@ -10,7 +10,7 @@ This document defines local development, deployment, CI/CD, environment manageme
 - State: React Query and Zustand.
 - Backend: NestJS on Node.js LTS.
 - Database/Auth/Storage/Realtime: Supabase.
-- Deployment: Vercel.
+- Deployment: `web` on Vercel; `api` on a long-running host (see [API Hosting Decision](#api-hosting-decision)).
 - Observability: Sentry, PostHog, Vercel Analytics.
 - Notifications: Resend, SMS provider, Firebase Cloud Messaging.
 - Payments: Easypaisa, JazzCash, bank transfer for Pakistan; Stripe for USA Phase 2.
@@ -40,11 +40,11 @@ supabase db diff
 
 Use three environments.
 
-| Environment | Purpose | Data |
-| --- | --- | --- |
-| Development | Local and individual testing | Local or disposable data |
-| Staging | Pre-production validation | Sanitized test data |
-| Production | Live marketplace | Real user and payment data |
+| Environment | Purpose                      | Data                       |
+| ----------- | ---------------------------- | -------------------------- |
+| Development | Local and individual testing | Local or disposable data   |
+| Staging     | Pre-production validation    | Sanitized test data        |
+| Production  | Live marketplace             | Real user and payment data |
 
 ## Environment Variables
 
@@ -90,14 +90,37 @@ POSTHOG_API_KEY=
 PAYMENT_WEBHOOK_SECRET=
 ```
 
+## API Hosting Decision
+
+Resolved in M0 (DEVOPS-02). The open question from `ImplementationPlan.md` ("Vercel for API where feasible") is decided as follows:
+
+| Component       | Host                                              | Rationale                                                                     |
+| --------------- | ------------------------------------------------- | ----------------------------------------------------------------------------- |
+| `web` (Next.js) | **Vercel**                                        | First-class Next.js support, edge/CDN, preview deployments per PR.            |
+| `api` (NestJS)  | **Long-running host** (Railway / Render / Fly.io) | A persistent Node process is required; serverless is unsuitable for this API. |
+
+Why the API is not on Vercel serverless:
+
+- **Payment webhooks** (Easypaisa/JazzCash/Stripe) need reliable, signature-verified handling without cold-start latency or execution-time caps.
+- **Transactional outbox drainer** (M1) is a scheduled, long-running worker; serverless function timeouts and lack of background execution make it brittle.
+- **Connection pooling** to Supabase Postgres is stable from a long-lived process; serverless invocations exhaust connections without an external pooler.
+
+Implications:
+
+- The Supabase **service-role key** lives only in the API host's secret manager, never in the web/Vercel environment.
+- Webhook endpoints (`POST /api/v1/payments/:provider/webhook`) and the outbox drainer run on the long-running host; Vercel proxies user traffic to the API via `NEXT_PUBLIC_API_URL`.
+- Confirm the chosen host supports a scheduled task/cron (or a always-on worker) for the outbox drainer before M5.
+
 ## Infrastructure Diagram
 
 ```mermaid
 flowchart TD
   GH[GitHub Repository] --> Actions[GitHub Actions]
   Actions --> Vercel[Vercel Preview/Production]
+  Actions --> Host[Long-running host: Railway/Render/Fly]
   Vercel --> Web[Next.js Web]
-  Vercel --> API[NestJS API]
+  Host --> API[NestJS API]
+  Web --> API
   API --> Supabase[(Supabase Postgres)]
   API --> Auth[Supabase Auth]
   API --> Storage[Supabase Storage]
@@ -218,14 +241,14 @@ jobs:
 
 ### Incident Classes
 
-| Incident | Recovery Objective | Response |
-| --- | --- | --- |
-| Frontend deploy failure | Restore previous Vercel deployment | Rollback in Vercel |
-| API deploy failure | Restore previous deployment | Rollback and disable failing feature flag |
-| Database migration failure | Restore backup or apply forward fix | Use migration rollback plan |
-| Payment webhook failure | Prevent duplicate handling | Replay provider events idempotently |
-| Storage access issue | Preserve records | Disable uploads, keep reads signed |
-| Data breach | Contain and notify | Rotate keys, audit access, legal response |
+| Incident                   | Recovery Objective                  | Response                                  |
+| -------------------------- | ----------------------------------- | ----------------------------------------- |
+| Frontend deploy failure    | Restore previous Vercel deployment  | Rollback in Vercel                        |
+| API deploy failure         | Restore previous deployment         | Rollback and disable failing feature flag |
+| Database migration failure | Restore backup or apply forward fix | Use migration rollback plan               |
+| Payment webhook failure    | Prevent duplicate handling          | Replay provider events idempotently       |
+| Storage access issue       | Preserve records                    | Disable uploads, keep reads signed        |
+| Data breach                | Contain and notify                  | Rotate keys, audit access, legal response |
 
 ### Recovery Priorities
 
@@ -291,4 +314,3 @@ Primary cost drivers:
 ## Checkpoint
 
 Before production launch, complete a restore test, payment webhook replay test, RLS review, and smoke test of the full breeding request workflow.
-
