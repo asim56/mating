@@ -1,6 +1,7 @@
-import { Controller, Get, HttpCode, HttpStatus, ServiceUnavailableException } from '@nestjs/common';
+import { Controller, Get, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
+import { ApiError, ERROR_CODES } from '../../common';
 import { HealthResponseDto } from './dto/health-response.dto';
 import { HealthService } from './health.service';
 
@@ -18,7 +19,12 @@ export class HealthController {
     const result = await this.healthService.getStatus();
 
     if (result.status !== 'ok') {
-      throw new ServiceUnavailableException(result);
+      throw new ApiError(
+        ERROR_CODES.SERVICE_UNAVAILABLE,
+        'A required dependency is unreachable.',
+        HttpStatus.SERVICE_UNAVAILABLE,
+        result as unknown as Record<string, unknown>,
+      );
     }
 
     return result;
