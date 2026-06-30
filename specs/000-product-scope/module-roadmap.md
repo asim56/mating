@@ -9,12 +9,12 @@ spec draft · ✅ spec+plan · 🔧 tasks · 🚀 implementing · ✔ done
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | `000` | `000-product-scope` | — | Master scope | ✅ | — | — | — | — |
 | `001` | `001-identity-auth` | M1 (+ M0 inline) | `system`, `config/regions`, `identity`, `users`, `audit`, `analytics`, `notifications`, `breeds`, outbox | ✅ amended | ✅ amended | ✅ amended | ⬜ | ⬜ |
-| `002` | `002-animal-supply` | M2 | `animals`, `health`, `pedigree`, `verification` (badges) | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
-| `003` | `003-discovery` | M3 | `marketplace`, `matching` | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
-| `004` | `004-breeding-workflow` | M4 | `breeding-requests`, `messaging` | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
-| `005` | `005-payments-trust` | M5 | `payments`, `wallet-ledger` | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
-| `006` | `006-trust-admin` | M6 | `verification` (workflow), `reviews`, `admin` | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
-| `007` | `007-launch-hardening` | M7 | Cross-cutting hardening, retention, DR, perf | ⬜ | ⬜ | ⬜ | ⬜ | ⬜ |
+| `002` | `002-animal-supply` | M2 | `animals`, `health`, `pedigree`, `verification` (badges) | ✅ | ⬜ | ⬜ | ⬜ | ⬜ |
+| `003` | `003-discovery` | M3 | `marketplace`, `matching` | ✅ | ⬜ | ⬜ | ⬜ | ⬜ |
+| `004` | `004-breeding-workflow` | M4 | `breeding-requests`, `messaging` | ✅ | ⬜ | ⬜ | ⬜ | ⬜ |
+| `005` | `005-payments-trust` | M5 | `payments`, `wallet-ledger` | ✅ | ⬜ | ⬜ | ⬜ | ⬜ |
+| `006` | `006-trust-admin` | M6 | `verification` (workflow), `reviews`, `admin` | ✅ | ⬜ | ⬜ | ⬜ | ⬜ |
+| `007` | `007-launch-hardening` | M7 | Cross-cutting hardening, retention, DR, perf | ✅ | ⬜ | ⬜ | ⬜ | ⬜ |
 
 ## Dependency graph (implementation order)
 
