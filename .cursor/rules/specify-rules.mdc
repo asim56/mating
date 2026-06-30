@@ -4,6 +4,6 @@ alwaysApply: true
 
 <!-- SPECKIT START -->
 For additional context about technologies to be used, project structure,
-shell commands, and other important information, read the current plan:
-specs/001-identity-auth/plan.md
+shell commands, and other important information, read the current plan
+at specs/007-launch-hardening/plan.md
 <!-- SPECKIT END -->
