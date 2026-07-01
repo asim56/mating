@@ -1,0 +1,60 @@
+openapi: 3.0.0
+info:
+  title: Mating Marketplace API
+  description: |
+    Canonical OpenAPI contract. Full schema is generated from NestJS Swagger decorators
+    via `pnpm --filter @mating/api openapi:export` (see `openapi.json`).
+    M2 animal supply routes are tagged `animals`, `animal-health`, `pedigree`, `verification`.
+  version: 0.0.1
+paths:
+  /api/v1/animals:
+    get:
+      tags: [animals]
+      summary: List own animals
+    post:
+      tags: [animals]
+      summary: Create draft animal
+  /api/v1/animals/{id}:
+    get:
+      tags: [animals]
+      summary: Get owned animal
+    patch:
+      tags: [animals]
+      summary: Update draft animal
+    delete:
+      tags: [animals]
+      summary: Soft-delete animal
+  /api/v1/animals/{id}/publish-ready:
+    post:
+      tags: [animals]
+      summary: Mark publish-ready after eligibility
+  /api/v1/animals/{id}/media/upload-url:
+    post:
+      tags: [animals]
+      summary: Mint signed upload URL
+  /api/v1/animals/{id}/media:
+    get:
+      tags: [animals]
+      summary: List media with signed read URLs
+  /api/v1/animals/{id}/verification:
+    get:
+      tags: [verification]
+      summary: Per-dimension verification status
+  /api/v1/animals/{id}/health-records:
+    get:
+      tags: [animal-health]
+      summary: List health records
+    post:
+      tags: [animal-health]
+      summary: Add clinical health record
+  /api/v1/animals/{id}/health-records/{recordId}/read-url:
+    post:
+      tags: [animal-health]
+      summary: Signed read URL for health document
+  /api/v1/animals/{id}/pedigree:
+    get:
+      tags: [pedigree]
+      summary: List pedigree records
+    post:
+      tags: [pedigree]
+      summary: Add pedigree entry
