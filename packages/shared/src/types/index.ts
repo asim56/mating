@@ -36,3 +36,4 @@ export type SoftDeletable = {
 };
 
 export * from './auth';
+export * from './animal';

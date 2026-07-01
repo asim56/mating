@@ -128,6 +128,11 @@ This role can be implemented as a scoped variant of Support for MVP; track field
 
 ## Animal Management
 
+**M2 (implemented)**: Draft → publish-ready flow with region-config eligibility (`AnimalEligibilityService`),
+signed media uploads (`animal-media` bucket), clinical health records (`animal-health` module),
+pedigree with default `unverified` status, per-dimension verification badges (never aggregated),
+soft-delete with audit events (`animal.updated`, `animal.publish_ready`, `animal.soft_deleted`).
+
 ### Animal Profile Fields
 
 - Species: cattle, buffalo, horse, goat, sheep, dog, cat, exotic future.

@@ -27,10 +27,10 @@
 
 **Purpose**: Scaffold domain modules and shared types for M2 animal supply.
 
-- [ ] T001 Create `AnimalsModule` scaffold (`module`, `controller`, `service`, `repository`) in `apps/api/src/modules/animals/`
-- [ ] T002 [P] Create `AnimalHealthModule` scaffold in `apps/api/src/modules/animal-health/` (clinical domain; distinct from `modules/health` liveness)
-- [ ] T003 [P] Create `PedigreeModule` scaffold in `apps/api/src/modules/pedigree/`
-- [ ] T004 [P] Create `VerificationModule` scaffold in `apps/api/src/modules/verification/`
+- [x] T001 Create `AnimalsModule` scaffold (`module`, `controller`, `service`, `repository`) in `apps/api/src/modules/animals/`
+- [x] T002 [P] Create `AnimalHealthModule` scaffold in `apps/api/src/modules/animal-health/` (clinical domain; distinct from `modules/health` liveness)
+- [x] T003 [P] Create `PedigreeModule` scaffold in `apps/api/src/modules/pedigree/`
+- [x] T004 [P] Create `VerificationModule` scaffold in `apps/api/src/modules/verification/`
 
 ---
 
@@ -40,14 +40,14 @@
 
 **⚠️ CRITICAL**: No user story work until this phase is complete.
 
-- [ ] T005 Create migration `supabase/migrations/20250801000000_animal_supply.sql` with `animals`, `animal_media`, `health_records`, `pedigree_records` tables per `data-model.md`
-- [ ] T006 [P] Add RLS policies and storage bucket policies (`animal-media`, `health-records`, `pedigree-documents`) in `supabase/migrations/20250801000000_animal_supply.sql`
-- [ ] T007 [P] Add shared types `AnimalBreedingStatus`, `VerificationDimension`, `HealthRecordType` in `packages/shared/src/types/animal.ts`
-- [ ] T008 [P] Add `ANIMAL_PUBLISH_READY_REQUIREMENTS` and `VERIFICATION_DIMENSIONS` constants in `packages/shared/src/constants/animal.ts`
-- [ ] T009 Implement `AnimalEligibilityService` reading `getRegionConfig()` for min-age and health rules in `packages/shared/src/services/animal-eligibility.ts`
-- [ ] T010 Implement `SupabaseStorageProvider` signed upload/read URL helpers for owner-scoped paths in `apps/api/src/infra/storage/supabase-storage.provider.ts`
-- [ ] T011 Register `AnimalsModule`, `AnimalHealthModule`, `PedigreeModule`, `VerificationModule` in `apps/api/src/app.module.ts`
-- [ ] T012 Wire audit event emitters for `animal.updated`, `animal.publish_ready`, `animal.soft_deleted` in `apps/api/src/modules/animals/events/`
+- [x] T005 Create migration `supabase/migrations/20250801000000_animal_supply.sql` with `animals`, `animal_media`, `health_records`, `pedigree_records` tables per `data-model.md`
+- [x] T006 [P] Add RLS policies and storage bucket policies (`animal-media`, `health-records`, `pedigree-documents`) in `supabase/migrations/20250801000000_animal_supply.sql`
+- [x] T007 [P] Add shared types `AnimalBreedingStatus`, `VerificationDimension`, `HealthRecordType` in `packages/shared/src/types/animal.ts`
+- [x] T008 [P] Add `ANIMAL_PUBLISH_READY_REQUIREMENTS` and `VERIFICATION_DIMENSIONS` constants in `packages/shared/src/constants/animal.ts`
+- [x] T009 Implement `AnimalEligibilityService` reading `getRegionConfig()` for min-age and health rules in `packages/shared/src/services/animal-eligibility.ts`
+- [x] T010 Implement `SupabaseStorageProvider` signed upload/read URL helpers for owner-scoped paths in `apps/api/src/infra/storage/supabase-storage.provider.ts`
+- [x] T011 Register `AnimalsModule`, `AnimalHealthModule`, `PedigreeModule`, `VerificationModule` in `apps/api/src/app.module.ts`
+- [x] T012 Wire audit event emitters for `animal.updated`, `animal.publish_ready`, `animal.soft_deleted` in `apps/api/src/modules/animals/events/`
 
 **Checkpoint**: Foundation ready — user story implementation can begin.
 
@@ -61,16 +61,16 @@
 
 ### Tests for User Story 1
 
-- [ ] T013 [P] [US1] RBAC integration test: non-owner `PATCH`/`DELETE` returns `403` in `apps/api/test/animals/rbac.test.ts`
-- [ ] T014 [P] [US1] Integration test: `POST /animals` → draft, `GET /animals` lists owner animals in `apps/api/test/animals/draft.test.ts`
+- [x] T013 [P] [US1] RBAC integration test: non-owner `PATCH`/`DELETE` returns `403` in `apps/api/test/animals/rbac.test.ts`
+- [x] T014 [P] [US1] Integration test: `POST /animals` → draft, `GET /animals` lists owner animals in `apps/api/test/animals/draft.test.ts`
 
 ### Implementation for User Story 1
 
-- [ ] T015 [P] [US1] Implement `AnimalsRepository` with owner-scoped queries and soft-delete filter in `apps/api/src/modules/animals/animals.repository.ts`
-- [ ] T016 [P] [US1] Create DTOs (`CreateAnimalDto`, `UpdateAnimalDto`, `AnimalResponseDto`, `ListAnimalsQueryDto`) in `apps/api/src/modules/animals/dto/`
-- [ ] T017 [US1] Implement `AnimalsService` create/read/update with audit on update in `apps/api/src/modules/animals/animals.service.ts`
-- [ ] T018 [US1] Implement `AnimalsController` `POST /animals`, `GET /animals`, `GET /animals/:id`, `PATCH /animals/:id` in `apps/api/src/modules/animals/animals.controller.ts`
-- [ ] T019 [US1] Build owner draft list and create/edit forms in `apps/web/app/[locale]/(dashboard)/animals/` and `apps/web/features/animals/`
+- [x] T015 [P] [US1] Implement `AnimalsRepository` with owner-scoped queries and soft-delete filter in `apps/api/src/modules/animals/animals.repository.ts`
+- [x] T016 [P] [US1] Create DTOs (`CreateAnimalDto`, `UpdateAnimalDto`, `AnimalResponseDto`, `ListAnimalsQueryDto`) in `apps/api/src/modules/animals/dto/`
+- [x] T017 [US1] Implement `AnimalsService` create/read/update with audit on update in `apps/api/src/modules/animals/animals.service.ts`
+- [x] T018 [US1] Implement `AnimalsController` `POST /animals`, `GET /animals`, `GET /animals/:id`, `PATCH /animals/:id` in `apps/api/src/modules/animals/animals.controller.ts`
+- [x] T019 [US1] Build owner draft list and create/edit forms in `apps/web/app/[locale]/(dashboard)/animals/` and `apps/web/features/animals/`
 
 **Checkpoint**: User Story 1 independently testable.
 
@@ -84,18 +84,18 @@
 
 ### Tests for User Story 2
 
-- [ ] T020 [P] [US2] Eligibility unit tests for min-age, declaration, image count, blocked health in `packages/shared/test/animal-eligibility.test.ts`
-- [ ] T021 [P] [US2] Integration test: `POST /animals/:id/publish-ready` success and `400` missing-fields in `apps/api/test/animals/publish-ready.test.ts`
+- [x] T020 [P] [US2] Eligibility unit tests for min-age, declaration, image count, blocked health in `packages/shared/test/animal-eligibility.test.ts`
+- [x] T021 [P] [US2] Integration test: `POST /animals/:id/publish-ready` success and `400` missing-fields in `apps/api/test/animals/publish-ready.test.ts`
 
 ### Implementation for User Story 2
 
-- [ ] T022 [P] [US2] Implement `AnimalMediaRepository` in `apps/api/src/modules/animals/animal-media.repository.ts`
-- [ ] T023 [US2] Implement `POST /animals/:id/media/upload-url` and `GET /animals/:id/media` with signed URLs in `apps/api/src/modules/animals/animals.controller.ts`
-- [ ] T024 [US2] Implement publish-ready gate calling `AnimalEligibilityService` in `apps/api/src/modules/animals/animals.service.ts`
-- [ ] T025 [US2] Implement `POST /animals/:id/publish-ready` with audit `animal.publish_ready` in `apps/api/src/modules/animals/animals.controller.ts`
-- [ ] T026 [US2] RBAC test: non-owner `POST /animals/:id/media/upload-url` returns `403` in `apps/api/test/animals/media-rbac.test.ts`
-- [ ] T027 [US2] Build media upload flow (signed URL + confirm) in `apps/web/features/animals/media-upload.tsx`
-- [ ] T028 [US2] Build publish-ready checklist UI with validation feedback in `apps/web/features/animals/publish-ready-form.tsx`
+- [x] T022 [P] [US2] Implement `AnimalMediaRepository` in `apps/api/src/modules/animals/animal-media.repository.ts`
+- [x] T023 [US2] Implement `POST /animals/:id/media/upload-url` and `GET /animals/:id/media` with signed URLs in `apps/api/src/modules/animals/animals.controller.ts`
+- [x] T024 [US2] Implement publish-ready gate calling `AnimalEligibilityService` in `apps/api/src/modules/animals/animals.service.ts`
+- [x] T025 [US2] Implement `POST /animals/:id/publish-ready` with audit `animal.publish_ready` in `apps/api/src/modules/animals/animals.controller.ts`
+- [x] T026 [US2] RBAC test: non-owner `POST /animals/:id/media/upload-url` returns `403` in `apps/api/test/animals/media-rbac.test.ts`
+- [x] T027 [US2] Build media upload flow (signed URL + confirm) in `apps/web/features/animals/media-upload.tsx`
+- [x] T028 [US2] Build publish-ready checklist UI with validation feedback in `apps/web/features/animals/publish-ready-form.tsx`
 
 **Checkpoint**: User Stories 1 and 2 independently testable.
 
@@ -109,16 +109,16 @@
 
 ### Tests for User Story 3
 
-- [ ] T029 [P] [US3] RBAC test: vet can `POST` health record, cannot `POST` pedigree in `apps/api/test/animal-health/rbac.test.ts`
-- [ ] T030 [P] [US3] Integration test: health record create/list and pedigree `verificationStatus: unverified` in `apps/api/test/animal-health/health-pedigree.test.ts`
+- [x] T029 [P] [US3] RBAC test: vet can `POST` health record, cannot `POST` pedigree in `apps/api/test/animal-health/rbac.test.ts`
+- [x] T030 [P] [US3] Integration test: health record create/list and pedigree `verificationStatus: unverified` in `apps/api/test/animal-health/health-pedigree.test.ts`
 
 ### Implementation for User Story 3
 
-- [ ] T031 [P] [US3] Implement `AnimalHealthRepository` and `AnimalHealthService` in `apps/api/src/modules/animal-health/`
-- [ ] T032 [US3] Implement `POST/GET /animals/:id/health-records` and `POST .../read-url` in `apps/api/src/modules/animal-health/animal-health.controller.ts`
-- [ ] T033 [P] [US3] Implement `PedigreeRepository` and `PedigreeService` with sire/dam circular-reference validation in `apps/api/src/modules/pedigree/`
-- [ ] T034 [US3] Implement `POST/GET /animals/:id/pedigree` in `apps/api/src/modules/pedigree/pedigree.controller.ts`
-- [ ] T035 [US3] Build health record and pedigree forms in `apps/web/features/animals/health-records.tsx` and `apps/web/features/animals/pedigree-form.tsx`
+- [x] T031 [P] [US3] Implement `AnimalHealthRepository` and `AnimalHealthService` in `apps/api/src/modules/animal-health/`
+- [x] T032 [US3] Implement `POST/GET /animals/:id/health-records` and `POST .../read-url` in `apps/api/src/modules/animal-health/animal-health.controller.ts`
+- [x] T033 [P] [US3] Implement `PedigreeRepository` and `PedigreeService` with sire/dam circular-reference validation in `apps/api/src/modules/pedigree/`
+- [x] T034 [US3] Implement `POST/GET /animals/:id/pedigree` in `apps/api/src/modules/pedigree/pedigree.controller.ts`
+- [x] T035 [US3] Build health record and pedigree forms in `apps/web/features/animals/health-records.tsx` and `apps/web/features/animals/pedigree-form.tsx`
 
 **Checkpoint**: User Stories 1–3 independently testable.
 
@@ -132,14 +132,14 @@
 
 ### Tests for User Story 4
 
-- [ ] T036 [P] [US4] Test `GET /animals/:id/verification` returns all dimensions `unverified` for new animal in `apps/api/test/verification/dimensions.test.ts`
+- [x] T036 [P] [US4] Test `GET /animals/:id/verification` returns all dimensions `unverified` for new animal in `apps/api/test/verification/dimensions.test.ts`
 
 ### Implementation for User Story 4
 
-- [ ] T037 [US4] Initialize `metadata.verification_dimensions` map on animal create in `apps/api/src/modules/animals/animals.service.ts`
-- [ ] T038 [US4] Implement `VerificationService` read model in `apps/api/src/modules/verification/verification.service.ts`
-- [ ] T039 [US4] Implement `GET /animals/:id/verification` in `apps/api/src/modules/verification/verification.controller.ts`
-- [ ] T040 [US4] Build `VerificationBadges` component with per-dimension labels in `apps/web/features/animals/verification-badges.tsx`
+- [x] T037 [US4] Initialize `metadata.verification_dimensions` map on animal create in `apps/api/src/modules/animals/animals.service.ts`
+- [x] T038 [US4] Implement `VerificationService` read model in `apps/api/src/modules/verification/verification.service.ts`
+- [x] T039 [US4] Implement `GET /animals/:id/verification` in `apps/api/src/modules/verification/verification.controller.ts`
+- [x] T040 [US4] Build `VerificationBadges` component with per-dimension labels in `apps/web/features/animals/verification-badges.tsx`
 
 **Checkpoint**: User Stories 1–4 independently testable.
 
@@ -153,15 +153,15 @@
 
 ### Tests for User Story 5
 
-- [ ] T041 [P] [US5] Test `DELETE /animals/:id` soft-delete excludes from `GET /animals` active list in `apps/api/test/animals/soft-delete.test.ts`
-- [ ] T042 [P] [US5] Test `health_status: blocked` rejects publish-ready in `apps/api/test/animals/welfare-block.test.ts`
+- [x] T041 [P] [US5] Test `DELETE /animals/:id` soft-delete excludes from `GET /animals` active list in `apps/api/test/animals/soft-delete.test.ts`
+- [x] T042 [P] [US5] Test `health_status: blocked` rejects publish-ready in `apps/api/test/animals/welfare-block.test.ts`
 
 ### Implementation for User Story 5
 
-- [ ] T043 [US5] Implement soft-delete with audit `animal.soft_deleted` in `apps/api/src/modules/animals/animals.service.ts`
-- [ ] T044 [US5] Implement `DELETE /animals/:id` in `apps/api/src/modules/animals/animals.controller.ts`
-- [ ] T045 [US5] Enforce suspended-owner cannot create or publish-ready in `apps/api/src/modules/animals/policies/animal.policy.ts`
-- [ ] T046 [US5] Build delete confirmation flow in `apps/web/features/animals/delete-animal-dialog.tsx`
+- [x] T043 [US5] Implement soft-delete with audit `animal.soft_deleted` in `apps/api/src/modules/animals/animals.service.ts`
+- [x] T044 [US5] Implement `DELETE /animals/:id` in `apps/api/src/modules/animals/animals.controller.ts`
+- [x] T045 [US5] Enforce suspended-owner cannot create or publish-ready in `apps/api/src/modules/animals/policies/animal.policy.ts`
+- [x] T046 [US5] Build delete confirmation flow in `apps/web/features/animals/delete-animal-dialog.tsx`
 
 **Checkpoint**: All user stories independently testable.
 
@@ -171,11 +171,11 @@
 
 **Purpose**: API contract, docs, and end-to-end validation.
 
-- [ ] T047 [P] Update OpenAPI document with animal, media, health, pedigree, verification routes in `apps/api/openapi.yaml`
-- [ ] T048 [P] Update `doc/Features.md` and `doc/IntegrationGuide.md` for M2 animal supply behavior
-- [ ] T049 Suspended-owner eligibility integration test in `apps/api/test/animals/suspended-owner.test.ts`
-- [ ] T050 Audit event coverage test for publish-ready and soft-delete in `apps/api/test/animals/audit.test.ts`
-- [ ] T051 Run `specs/002-animal-supply/quickstart.md` validation scenarios end-to-end
+- [x] T047 [P] Update OpenAPI document with animal, media, health, pedigree, verification routes in `apps/api/openapi.yaml`
+- [x] T048 [P] Update `doc/Features.md` and `doc/IntegrationGuide.md` for M2 animal supply behavior
+- [x] T049 Suspended-owner eligibility integration test in `apps/api/test/animals/suspended-owner.test.ts`
+- [x] T050 Audit event coverage test for publish-ready and soft-delete in `apps/api/test/animals/audit.test.ts`
+- [x] T051 Run `specs/002-animal-supply/quickstart.md` validation scenarios end-to-end
 
 ---
 

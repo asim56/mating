@@ -588,17 +588,24 @@ Use service role only through the API for admin workflows, payments, and cross-u
 | GET | `/api/v1/admin/users` | Admin user search |
 | PATCH | `/api/v1/admin/users/:id/status` | Suspend/reactivate user |
 
-### Animals
+### Animals (M2)
 
 | Method | Path | Description |
 | --- | --- | --- |
-| POST | `/api/v1/animals` | Create animal |
-| GET | `/api/v1/animals/:id` | Get animal |
-| PATCH | `/api/v1/animals/:id` | Update owned animal |
+| POST | `/api/v1/animals` | Create draft animal |
+| GET | `/api/v1/animals` | List own animals (cursor pagination) |
+| GET | `/api/v1/animals/:id` | Get owned animal with media summary |
+| PATCH | `/api/v1/animals/:id` | Update draft fields (audited) |
 | DELETE | `/api/v1/animals/:id` | Soft-delete animal |
-| POST | `/api/v1/animals/:id/media/upload-url` | Create signed upload URL |
+| POST | `/api/v1/animals/:id/publish-ready` | Mark publish-ready after eligibility |
+| POST | `/api/v1/animals/:id/media/upload-url` | Mint signed upload URL |
+| GET | `/api/v1/animals/:id/media` | List media with signed read URLs |
+| GET | `/api/v1/animals/:id/verification` | Per-dimension verification map |
 | POST | `/api/v1/animals/:id/health-records` | Add health record |
+| GET | `/api/v1/animals/:id/health-records` | List health records |
+| POST | `/api/v1/animals/:id/health-records/:recordId/read-url` | Signed read URL for document |
 | POST | `/api/v1/animals/:id/pedigree` | Add pedigree record |
+| GET | `/api/v1/animals/:id/pedigree` | List pedigree records |
 
 ### Marketplace
 

@@ -3,16 +3,21 @@ import { ConfigModule } from '@nestjs/config';
 
 import { AppConfigModule } from './config/app-config.module';
 import { AuthCoreModule } from './config/auth-core.module';
+import { StorageModule } from './infra/storage/storage.module';
 import { SupabaseModule } from './infra/supabase/supabase.module';
 import { AnalyticsModule } from './modules/analytics/analytics.module';
+import { AnimalHealthModule } from './modules/animal-health/animal-health.module';
+import { AnimalsModule } from './modules/animals/animals.module';
 import { AuditModule } from './modules/audit/audit.module';
 import { AdminModule } from './modules/identity/admin.module';
 import { BreedsModule } from './modules/breeds/breeds.module';
 import { HealthModule } from './modules/health/health.module';
 import { IdentityModule } from './modules/identity/identity.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
+import { PedigreeModule } from './modules/pedigree/pedigree.module';
 import { RegionsModule } from './modules/regions/regions.module';
 import { UsersModule } from './modules/users/users.module';
+import { VerificationModule } from './modules/verification/verification.module';
 
 @Module({
   imports: [
@@ -23,6 +28,7 @@ import { UsersModule } from './modules/users/users.module';
     AppConfigModule,
     AuthCoreModule,
     SupabaseModule,
+    StorageModule,
     AuditModule,
     AnalyticsModule,
     NotificationsModule,
@@ -32,6 +38,10 @@ import { UsersModule } from './modules/users/users.module';
     AdminModule,
     RegionsModule,
     BreedsModule,
+    AnimalsModule,
+    AnimalHealthModule,
+    PedigreeModule,
+    VerificationModule,
   ],
 })
 export class AppModule {}
