@@ -1,8 +1,10 @@
 {
-  "feature_directory": "specs/002-animal-supply",
-  "previous_feature": "specs/001-identity-auth",
+  "feature_directory": "specs/004-breeding-workflow",
+  "previous_feature": "specs/003-discovery",
   "milestone_status": {
     "M1": "complete",
-    "active": "M2"
+    "M2": "complete",
+    "M3": "complete",
+    "active": "M4"
   }
 }

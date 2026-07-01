@@ -5,6 +5,7 @@ info:
     Canonical OpenAPI contract. Full schema is generated from NestJS Swagger decorators
     via `pnpm --filter @mating/api openapi:export` (see `openapi.json`).
     M2 animal supply routes are tagged `animals`, `animal-health`, `pedigree`, `verification`.
+    M3 discovery routes are tagged `marketplace`, `matching`, `saved-listings`.
   version: 0.0.1
 paths:
   /api/v1/animals:
@@ -58,3 +59,44 @@ paths:
     post:
       tags: [pedigree]
       summary: Add pedigree entry
+  /api/v1/listings:
+    get:
+      tags: [matching]
+      summary: Search active listings
+    post:
+      tags: [marketplace]
+      summary: Create draft listing
+  /api/v1/listings/mine:
+    get:
+      tags: [marketplace]
+      summary: List own listings
+  /api/v1/listings/{id}:
+    get:
+      tags: [marketplace]
+      summary: Public listing detail
+    patch:
+      tags: [marketplace]
+      summary: Update own listing
+  /api/v1/listings/{id}/publish:
+    post:
+      tags: [marketplace]
+      summary: Publish listing
+  /api/v1/listings/{id}/pause:
+    post:
+      tags: [marketplace]
+      summary: Pause listing
+  /api/v1/listings/{id}/unpublish:
+    post:
+      tags: [marketplace]
+      summary: Unpublish listing
+  /api/v1/saved-listings:
+    get:
+      tags: [saved-listings]
+      summary: List saved listings
+    post:
+      tags: [saved-listings]
+      summary: Save listing
+  /api/v1/saved-listings/{listingId}:
+    delete:
+      tags: [saved-listings]
+      summary: Unsave listing

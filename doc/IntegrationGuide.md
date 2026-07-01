@@ -607,16 +607,22 @@ Use service role only through the API for admin workflows, payments, and cross-u
 | POST | `/api/v1/animals/:id/pedigree` | Add pedigree record |
 | GET | `/api/v1/animals/:id/pedigree` | List pedigree records |
 
-### Marketplace
+### Marketplace (M3)
 
 | Method | Path | Description |
 | --- | --- | --- |
-| POST | `/api/v1/listings` | Create listing |
+| POST | `/api/v1/listings` | Create draft listing |
+| GET | `/api/v1/listings/mine` | List own listings |
 | PATCH | `/api/v1/listings/:id` | Update listing |
-| POST | `/api/v1/listings/:id/publish` | Publish listing |
-| GET | `/api/v1/listings` | Search listings |
-| GET | `/api/v1/listings/:id` | Listing detail |
-| POST | `/api/v1/listings/:id/boost` | Buy boost |
+| POST | `/api/v1/listings/:id/publish` | Publish listing (animal → listed) |
+| POST | `/api/v1/listings/:id/pause` | Pause listing |
+| POST | `/api/v1/listings/:id/unpublish` | Unpublish to draft |
+| GET | `/api/v1/listings` | Search active listings (rate-limited) |
+| GET | `/api/v1/listings/:id` | Public listing detail (no phone) |
+| GET | `/api/v1/saved-listings` | List saved listings |
+| POST | `/api/v1/saved-listings` | Save listing (idempotent) |
+| DELETE | `/api/v1/saved-listings/:listingId` | Unsave listing |
+| POST | `/api/v1/listings/:id/boost` | Buy boost (M5) |
 
 ### Breeding Requests
 

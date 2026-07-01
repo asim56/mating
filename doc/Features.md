@@ -133,6 +133,10 @@ signed media uploads (`animal-media` bucket), clinical health records (`animal-h
 pedigree with default `unverified` status, per-dimension verification badges (never aggregated),
 soft-delete with audit events (`animal.updated`, `animal.publish_ready`, `animal.soft_deleted`).
 
+**M3 (implemented)**: Listing lifecycle (`draft` → `active`/`paused`), publish validation against
+publish-ready animals, PostgreSQL FTS search with deterministic `COMPATIBILITY_WEIGHTS` scoring,
+public listing detail (no phone), saved listings, discovery analytics, SSR city/species SEO pages.
+
 ### Animal Profile Fields
 
 - Species: cattle, buffalo, horse, goat, sheep, dog, cat, exotic future.

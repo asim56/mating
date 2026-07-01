@@ -18,6 +18,6 @@ import { AnimalsService } from './animals.service';
     { provide: ANIMALS_REPOSITORY, useClass: InMemoryAnimalsRepository },
     { provide: ANIMAL_MEDIA_REPOSITORY, useClass: InMemoryAnimalMediaRepository },
   ],
-  exports: [AnimalsService, ANIMALS_REPOSITORY],
+  exports: [AnimalsService, ANIMALS_REPOSITORY, ANIMAL_MEDIA_REPOSITORY],
 })
 export class AnimalsModule {}

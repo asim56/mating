@@ -27,10 +27,10 @@
 
 **Purpose**: Scaffold marketplace/matching modules and shared listing contracts.
 
-- [ ] T001 Create `MarketplaceModule` scaffold (`module`, `controller`, `service`, `repository`) in `apps/api/src/modules/marketplace/`
-- [ ] T002 [P] Create `MatchingModule` scaffold in `apps/api/src/modules/matching/`
-- [ ] T003 [P] Add shared types `ListingStatus`, `ListingType`, `BreedingMethod`, `PublicListingSummary` in `packages/shared/src/types/listing.ts`
-- [ ] T004 [P] Add `LISTING_STATUS`, `LISTING_TYPES`, `COMPATIBILITY_WEIGHTS`, `LISTING_PUBLISH_REQUIREMENTS` in `packages/shared/src/constants/listing.ts`
+- [x] T001 Create `MarketplaceModule` scaffold (`module`, `controller`, `service`, `repository`) in `apps/api/src/modules/marketplace/`
+- [x] T002 [P] Create `MatchingModule` scaffold in `apps/api/src/modules/matching/`
+- [x] T003 [P] Add shared types `ListingStatus`, `ListingType`, `BreedingMethod`, `PublicListingSummary` in `packages/shared/src/types/listing.ts`
+- [x] T004 [P] Add `LISTING_STATUS`, `LISTING_TYPES`, `COMPATIBILITY_WEIGHTS`, `LISTING_PUBLISH_REQUIREMENTS` in `packages/shared/src/constants/listing.ts`
 
 ---
 
@@ -40,14 +40,14 @@
 
 **⚠️ CRITICAL**: No user story work until this phase is complete.
 
-- [ ] T005 Create migration `supabase/migrations/20250802000000_discovery.sql` with `listings` and `saved_listings` tables per `data-model.md`
-- [ ] T006 [P] Add `search_vector` trigger `listings_search_vector_trg`, GIN index `listings_search_idx`, and partial indexes in `supabase/migrations/20250802000000_discovery.sql`
-- [ ] T007 [P] Add RLS policies (public read `active` non-deleted; owner CRUD own rows) in `supabase/migrations/20250802000000_discovery.sql`
-- [ ] T008 Implement `ListingPolicy` publish validation (animal publish-ready, listing-type fields, region re-check) in `apps/api/src/modules/marketplace/policies/listing.policy.ts`
-- [ ] T009 Register `MarketplaceModule` and `MatchingModule` in `apps/api/src/app.module.ts`
-- [ ] T010 [P] Wire audit events `listing.created`, `listing.published`, `listing.paused`, `listing.unpublished` in `apps/api/src/modules/marketplace/events/`
-- [ ] T011 [P] Configure `search` rate-limit category for `GET /listings` in `apps/api/src/common/rate-limit/`
-- [ ] T012 Trigger test: insert listing populates `search_vector` without app write in `apps/api/test/matching/search-vector.test.ts`
+- [x] T005 Create migration `supabase/migrations/20250802000000_discovery.sql` with `listings` and `saved_listings` tables per `data-model.md`
+- [x] T006 [P] Add `search_vector` trigger `listings_search_vector_trg`, GIN index `listings_search_idx`, and partial indexes in `supabase/migrations/20250802000000_discovery.sql`
+- [x] T007 [P] Add RLS policies (public read `active` non-deleted; owner CRUD own rows) in `supabase/migrations/20250802000000_discovery.sql`
+- [x] T008 Implement `ListingPolicy` publish validation (animal publish-ready, listing-type fields, region re-check) in `apps/api/src/modules/marketplace/policies/listing.policy.ts`
+- [x] T009 Register `MarketplaceModule` and `MatchingModule` in `apps/api/src/app.module.ts`
+- [x] T010 [P] Wire audit events `listing.created`, `listing.published`, `listing.paused`, `listing.unpublished` in `apps/api/src/modules/marketplace/events/`
+- [x] T011 [P] Configure `search` rate-limit category for `GET /listings` in `apps/api/src/common/rate-limit/`
+- [x] T012 Trigger test: insert listing populates `search_vector` without app write in `apps/api/test/matching/search-vector.test.ts`
 
 **Checkpoint**: Foundation ready — user story implementation can begin.
 
@@ -61,18 +61,18 @@
 
 ### Tests for User Story 1
 
-- [ ] T013 [P] [US1] RBAC test: non-owner cannot `POST /listings/:id/publish` in `apps/api/test/marketplace/rbac.test.ts`
-- [ ] T014 [P] [US1] Eligibility test: animal not publish-ready or health blocked rejects publish in `apps/api/test/marketplace/publish-eligibility.test.ts`
+- [x] T013 [P] [US1] RBAC test: non-owner cannot `POST /listings/:id/publish` in `apps/api/test/marketplace/rbac.test.ts`
+- [x] T014 [P] [US1] Eligibility test: animal not publish-ready or health blocked rejects publish in `apps/api/test/marketplace/publish-eligibility.test.ts`
 
 ### Implementation for User Story 1
 
-- [ ] T015 [P] [US1] Implement `MarketplaceRepository` with owner-scoped listing queries in `apps/api/src/modules/marketplace/marketplace.repository.ts`
-- [ ] T016 [P] [US1] Create listing DTOs (`CreateListingDto`, `UpdateListingDto`, `ListingResponseDto`) in `apps/api/src/modules/marketplace/dto/`
-- [ ] T017 [US1] Implement `MarketplaceService` draft CRUD and one-active-listing-per-animal guard in `apps/api/src/modules/marketplace/marketplace.service.ts`
-- [ ] T018 [US1] Implement `POST /listings`, `PATCH /listings/:id`, `GET /listings/mine` in `apps/api/src/modules/marketplace/marketplace.controller.ts`
-- [ ] T019 [US1] Implement `POST /listings/:id/publish`, `pause`, `unpublish` with animal `breeding_status` transitions in `apps/api/src/modules/marketplace/marketplace.service.ts`
-- [ ] T020 [US1] Expose publish/pause/unpublish endpoints in `apps/api/src/modules/marketplace/marketplace.controller.ts`
-- [ ] T021 [US1] Build owner listings dashboard in `apps/web/app/[locale]/(dashboard)/listings/` and publish flow in `apps/web/features/discovery/listing-form.tsx`
+- [x] T015 [P] [US1] Implement `MarketplaceRepository` with owner-scoped listing queries in `apps/api/src/modules/marketplace/marketplace.repository.ts`
+- [x] T016 [P] [US1] Create listing DTOs (`CreateListingDto`, `UpdateListingDto`, `ListingResponseDto`) in `apps/api/src/modules/marketplace/dto/`
+- [x] T017 [US1] Implement `MarketplaceService` draft CRUD and one-active-listing-per-animal guard in `apps/api/src/modules/marketplace/marketplace.service.ts`
+- [x] T018 [US1] Implement `POST /listings`, `PATCH /listings/:id`, `GET /listings/mine` in `apps/api/src/modules/marketplace/marketplace.controller.ts`
+- [x] T019 [US1] Implement `POST /listings/:id/publish`, `pause`, `unpublish` with animal `breeding_status` transitions in `apps/api/src/modules/marketplace/marketplace.service.ts`
+- [x] T020 [US1] Expose publish/pause/unpublish endpoints in `apps/api/src/modules/marketplace/marketplace.controller.ts`
+- [x] T021 [US1] Build owner listings dashboard in `apps/web/app/[locale]/(dashboard)/listings/` and publish flow in `apps/web/features/discovery/listing-form.tsx`
 
 **Checkpoint**: User Story 1 independently testable.
 
@@ -86,18 +86,18 @@
 
 ### Tests for User Story 2
 
-- [ ] T022 [P] [US2] Unit tests: `COMPATIBILITY_WEIGHTS` sum to 100 and scorer determinism in `packages/shared/test/compatibility-scorer.test.ts`
-- [ ] T023 [P] [US2] Integration test: repeated search with `requesterAnimalId` yields identical order in `apps/api/test/matching/ranking.test.ts`
+- [x] T022 [P] [US2] Unit tests: `COMPATIBILITY_WEIGHTS` sum to 100 and scorer determinism in `packages/shared/test/compatibility-scorer.test.ts`
+- [x] T023 [P] [US2] Integration test: repeated search with `requesterAnimalId` yields identical order in `apps/api/test/matching/ranking.test.ts`
 
 ### Implementation for User Story 2
 
-- [ ] T024 [P] [US2] Implement `CompatibilityScorer` with documented weights in `apps/api/src/modules/matching/scoring/compatibility-scorer.ts`
-- [ ] T025 [P] [US2] Implement haversine `distance.ts` helper in `apps/api/src/modules/matching/scoring/distance.ts`
-- [ ] T026 [US2] Implement `MatchingService` search query builder (FTS, filters, cursor pagination) in `apps/api/src/modules/matching/matching.service.ts`
-- [ ] T027 [US2] Implement `GET /listings` search endpoint in `apps/api/src/modules/matching/matching.controller.ts`
-- [ ] T028 [US2] Emit `search_performed` analytics (filter summary, no health doc paths) in `apps/api/src/modules/matching/matching.service.ts`
-- [ ] T029 [US2] Rate-limit integration test `429 RATE_LIMITED` in `apps/api/test/matching/rate-limit.test.ts`
-- [ ] T030 [US2] Build search UI with filters and cursor pagination in `apps/web/features/discovery/search/`
+- [x] T024 [P] [US2] Implement `CompatibilityScorer` with documented weights in `apps/api/src/modules/matching/scoring/compatibility-scorer.ts`
+- [x] T025 [P] [US2] Implement haversine `distance.ts` helper in `apps/api/src/modules/matching/scoring/distance.ts`
+- [x] T026 [US2] Implement `MatchingService` search query builder (FTS, filters, cursor pagination) in `apps/api/src/modules/matching/matching.service.ts`
+- [x] T027 [US2] Implement `GET /listings` search endpoint in `apps/api/src/modules/matching/matching.controller.ts`
+- [x] T028 [US2] Emit `search_performed` analytics (filter summary, no health doc paths) in `apps/api/src/modules/matching/matching.service.ts`
+- [x] T029 [US2] Rate-limit integration test `429 RATE_LIMITED` in `apps/api/test/matching/rate-limit.test.ts`
+- [x] T030 [US2] Build search UI with filters and cursor pagination in `apps/web/features/discovery/search/`
 
 **Checkpoint**: User Stories 1 and 2 independently testable.
 
@@ -111,17 +111,17 @@
 
 ### Tests for User Story 3
 
-- [ ] T031 [P] [US3] Phone-absence test: scan `GET /listings/:id` JSON for E.164 patterns in `apps/api/test/marketplace/public-detail.test.ts`
-- [ ] T032 [P] [US3] RLS test: public can read `active` only; owner sees own non-active in `apps/api/test/marketplace/rls.test.ts`
+- [x] T031 [P] [US3] Phone-absence test: scan `GET /listings/:id` JSON for E.164 patterns in `apps/api/test/marketplace/public-detail.test.ts`
+- [x] T032 [P] [US3] RLS test: public can read `active` only; owner sees own non-active in `apps/api/test/marketplace/rls.test.ts`
 
 ### Implementation for User Story 3
 
-- [ ] T033 [US3] Implement `PublicListingDetailDto` with explicit field allowlist (no `phone`) in `apps/api/src/modules/marketplace/dto/public-listing-detail.dto.ts`
-- [ ] T034 [US3] Implement `GET /listings/:id` public detail with `listing_viewed` analytics in `apps/api/src/modules/marketplace/marketplace.controller.ts`
-- [ ] T035 [US3] Build SSR listing detail page in `apps/web/app/[locale]/(public)/listings/[id]/page.tsx`
-- [ ] T036 [US3] Add Urdu RTL layout and translation keys for detail in `apps/web/app/[locale]/(public)/listings/[id]/`
-- [ ] T037 [US3] Handle paused/suspended/soft-deleted unavailable state in `apps/web/app/[locale]/(public)/listings/[id]/not-found.tsx`
-- [ ] T038 [US3] Render verification dimension badges on public detail in `apps/web/features/discovery/listing-detail.tsx`
+- [x] T033 [US3] Implement `PublicListingDetailDto` with explicit field allowlist (no `phone`) in `apps/api/src/modules/marketplace/dto/public-listing-detail.dto.ts`
+- [x] T034 [US3] Implement `GET /listings/:id` public detail with `listing_viewed` analytics in `apps/api/src/modules/marketplace/marketplace.controller.ts`
+- [x] T035 [US3] Build SSR listing detail page in `apps/web/app/[locale]/(public)/listings/[id]/page.tsx`
+- [x] T036 [US3] Add Urdu RTL layout and translation keys for detail in `apps/web/app/[locale]/(public)/listings/[id]/`
+- [x] T037 [US3] Handle paused/suspended/soft-deleted unavailable state in `apps/web/app/[locale]/(public)/listings/[id]/not-found.tsx`
+- [x] T038 [US3] Render verification dimension badges on public detail in `apps/web/features/discovery/listing-detail.tsx`
 
 **Checkpoint**: User Stories 1–3 independently testable.
 
@@ -135,16 +135,16 @@
 
 ### Tests for User Story 4
 
-- [ ] T039 [P] [US4] Idempotent save/unsave integration test in `apps/api/test/marketplace/saved-listings.test.ts`
+- [x] T039 [P] [US4] Idempotent save/unsave integration test in `apps/api/test/marketplace/saved-listings.test.ts`
 
 ### Implementation for User Story 4
 
-- [ ] T040 [P] [US4] Implement `SavedListingsRepository` in `apps/api/src/modules/marketplace/saved-listings.repository.ts`
-- [ ] T041 [US4] Implement `GET /saved-listings`, `POST /saved-listings`, `DELETE /saved-listings/:listingId` in `apps/api/src/modules/marketplace/saved-listings.controller.ts`
-- [ ] T042 [US4] Handle suspended/non-active listings as `available: false` in saved list response in `apps/api/src/modules/marketplace/saved-listings.service.ts`
-- [ ] T043 [US4] Emit `listing_saved` analytics on first save in `apps/api/src/modules/marketplace/saved-listings.service.ts`
-- [ ] T044 [US4] Build saved listings dashboard in `apps/web/app/[locale]/(dashboard)/saved/`
-- [ ] T045 [US4] Implement `useSavedListing` hook in `apps/web/features/discovery/use-saved-listing.ts`
+- [x] T040 [P] [US4] Implement `SavedListingsRepository` in `apps/api/src/modules/marketplace/saved-listings.repository.ts`
+- [x] T041 [US4] Implement `GET /saved-listings`, `POST /saved-listings`, `DELETE /saved-listings/:listingId` in `apps/api/src/modules/marketplace/saved-listings.controller.ts`
+- [x] T042 [US4] Handle suspended/non-active listings as `available: false` in saved list response in `apps/api/src/modules/marketplace/saved-listings.service.ts`
+- [x] T043 [US4] Emit `listing_saved` analytics on first save in `apps/api/src/modules/marketplace/saved-listings.service.ts`
+- [x] T044 [US4] Build saved listings dashboard in `apps/web/app/[locale]/(dashboard)/saved/`
+- [x] T045 [US4] Implement `useSavedListing` hook in `apps/web/features/discovery/use-saved-listing.ts`
 
 **Checkpoint**: User Stories 1–4 independently testable.
 
@@ -158,15 +158,15 @@
 
 ### Tests for User Story 5
 
-- [ ] T046 [P] [US5] SSR metadata test for `generateMetadata` title/description in `apps/web/test/browse-seo.test.ts`
+- [x] T046 [P] [US5] SSR metadata test for `generateMetadata` title/description in `apps/web/test/browse-seo.test.ts`
 
 ### Implementation for User Story 5
 
-- [ ] T047 [US5] Build SSR browse page in `apps/web/app/[locale]/(public)/browse/[city]/[species]/page.tsx`
-- [ ] T048 [US5] Implement `generateMetadata` for city/species SEO in `apps/web/app/[locale]/(public)/browse/[city]/[species]/page.tsx`
-- [ ] T049 [US5] Add JSON-LD `ItemList` structured data component in `apps/web/features/discovery/seo-item-list.tsx`
-- [ ] T050 [US5] Implement empty-state with correct metadata when zero listings in `apps/web/app/[locale]/(public)/browse/[city]/[species]/empty.tsx`
-- [ ] T051 [US5] Wire en/ur locale routing and RTL `dir` attribute for browse pages in `apps/web/app/[locale]/(public)/browse/`
+- [x] T047 [US5] Build SSR browse page in `apps/web/app/[locale]/(public)/browse/[city]/[species]/page.tsx`
+- [x] T048 [US5] Implement `generateMetadata` for city/species SEO in `apps/web/app/[locale]/(public)/browse/[city]/[species]/page.tsx`
+- [x] T049 [US5] Add JSON-LD `ItemList` structured data component in `apps/web/features/discovery/seo-item-list.tsx`
+- [x] T050 [US5] Implement empty-state with correct metadata when zero listings in `apps/web/app/[locale]/(public)/browse/[city]/[species]/empty.tsx`
+- [x] T051 [US5] Wire en/ur locale routing and RTL `dir` attribute for browse pages in `apps/web/app/[locale]/(public)/browse/`
 
 **Checkpoint**: All user stories independently testable.
 
@@ -176,10 +176,10 @@
 
 **Purpose**: API contract, docs, and end-to-end validation.
 
-- [ ] T052 [P] Update OpenAPI with listing, search, and saved-listings routes in `apps/api/openapi.yaml`
-- [ ] T053 [P] Update `doc/Features.md` and `doc/IntegrationGuide.md` for M3 discovery behavior
-- [ ] T054 Verify OpenAPI drift CI gate passes for new endpoints
-- [ ] T055 Run `specs/003-discovery/quickstart.md` validation scenarios end-to-end
+- [x] T052 [P] Update OpenAPI with listing, search, and saved-listings routes in `apps/api/openapi.yaml`
+- [x] T053 [P] Update `doc/Features.md` and `doc/IntegrationGuide.md` for M3 discovery behavior
+- [x] T054 Verify OpenAPI drift CI gate passes for new endpoints
+- [x] T055 Run `specs/003-discovery/quickstart.md` validation scenarios end-to-end
 
 ---
 
