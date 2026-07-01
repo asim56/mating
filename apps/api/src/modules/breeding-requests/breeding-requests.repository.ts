@@ -174,31 +174,85 @@ export class InMemoryBreedingRequestsRepository {
     openedBy: string;
     reasonCode: string;
     description: string | null;
+    paymentIntentId?: string | null;
   }): Promise<Dispute> {
     const now = new Date().toISOString();
     const dispute: Dispute = {
       id: randomUUID(),
       requestId: input.requestId,
       openedBy: input.openedBy,
+      assignedTo: null,
       status: 'open',
       reasonCode: input.reasonCode,
       description: input.description,
+      resolutionCode: null,
+      resolutionType: null,
+      paymentIntentId: input.paymentIntentId ?? null,
+      resolvedAt: null,
+      resolvedBy: null,
+      metadata: {},
       createdAt: now,
       updatedAt: now,
     };
     this.disputes.set(dispute.id, dispute);
-    return { ...dispute };
+    return { ...dispute, metadata: { ...dispute.metadata } };
   }
 
   async findOpenDisputeByRequestId(requestId: string): Promise<Dispute | null> {
     const match = [...this.disputes.values()].find(
-      (d) => d.requestId === requestId && d.status === 'open',
+      (d) =>
+        d.requestId === requestId &&
+        ['open', 'assigned', 'investigating'].includes(d.status),
     );
-    return match ? { ...match } : null;
+    return match ? { ...match, metadata: { ...match.metadata } } : null;
   }
 
   async findDisputeById(id: string): Promise<Dispute | null> {
     const row = this.disputes.get(id);
-    return row ? { ...row } : null;
+    return row ? { ...row, metadata: { ...row.metadata } } : null;
+  }
+
+  async updateDispute(id: string, patch: Partial<Dispute>): Promise<Dispute | null> {
+    const current = this.disputes.get(id);
+    if (!current) return null;
+    const updated: Dispute = {
+      ...current,
+      ...patch,
+      metadata: patch.metadata ? { ...current.metadata, ...patch.metadata } : current.metadata,
+      updatedAt: new Date().toISOString(),
+    };
+    this.disputes.set(id, updated);
+    return { ...updated, metadata: { ...updated.metadata } };
+  }
+
+  async listDisputes(filter: {
+    status?: string;
+    assignedTo?: string;
+    cursor?: string;
+    limit: number;
+  }): Promise<Dispute[]> {
+    let rows = [...this.disputes.values()];
+    if (filter.status) rows = rows.filter((d) => d.status === filter.status);
+    if (filter.assignedTo) rows = rows.filter((d) => d.assignedTo === filter.assignedTo);
+    rows.sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+    if (filter.cursor) {
+      const cursorDate = decodeCursor(filter.cursor);
+      rows = rows.filter((d) => d.createdAt < cursorDate);
+    }
+    return rows.slice(0, filter.limit + 1).map((d) => ({ ...d, metadata: { ...d.metadata } }));
+  }
+
+  async countDisputes(): Promise<{ total: number }> {
+    return { total: this.disputes.size };
+  }
+
+  async countByStatus(): Promise<Record<string, number>> {
+    const counts: Record<string, number> = {};
+    for (const row of this.requests.values()) {
+      if (!row.deletedAt) {
+        counts[row.status] = (counts[row.status] ?? 0) + 1;
+      }
+    }
+    return counts;
   }
 }

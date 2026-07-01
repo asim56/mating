@@ -21,3 +21,4 @@ export * from './auth/roles.guard';
 export * from './auth/account-status.guard';
 export * from './auth/session.guard';
 export * from './auth/ownership-policy.base';
+export * from './policies/field-rep.policy';

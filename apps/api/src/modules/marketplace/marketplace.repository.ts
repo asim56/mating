@@ -91,6 +91,7 @@ export class InMemoryMarketplaceRepository {
       ...(patch.breedingMethod !== undefined ? { breedingMethod: patch.breedingMethod } : {}),
       ...(patch.priceAmount !== undefined ? { priceAmount: patch.priceAmount } : {}),
       ...(patch.availability !== undefined ? { availability: patch.availability } : {}),
+      ...(patch.availability !== undefined ? { availability: patch.availability } : {}),
       ...(patch.locationRadiusKm !== undefined ? { locationRadiusKm: patch.locationRadiusKm } : {}),
       ...(patch.listingType !== undefined ? { listingType: patch.listingType } : {}),
       updatedAt: new Date().toISOString(),
@@ -132,6 +133,12 @@ export class InMemoryMarketplaceRepository {
   async listActive(): Promise<Listing[]> {
     return [...this.listings.values()]
       .filter((l) => l.status === 'active' && !l.deletedAt)
+      .map(clone);
+  }
+
+  async listSuspended(): Promise<Listing[]> {
+    return [...this.listings.values()]
+      .filter((l) => l.status === 'suspended' && !l.deletedAt)
       .map(clone);
   }
 

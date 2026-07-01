@@ -67,13 +67,22 @@ export type BreedingRecord = {
   updatedAt: string;
 };
 
+import type { DisputeStatus, DisputeResolutionType } from '@mating/shared';
+
 export type Dispute = {
   id: string;
   requestId: string;
   openedBy: string;
-  status: 'open';
+  assignedTo: string | null;
+  status: DisputeStatus;
   reasonCode: string;
   description: string | null;
+  resolutionCode: string | null;
+  resolutionType: DisputeResolutionType | null;
+  paymentIntentId: string | null;
+  resolvedAt: string | null;
+  resolvedBy: string | null;
+  metadata: Record<string, unknown>;
   createdAt: string;
   updatedAt: string;
 };

@@ -95,6 +95,14 @@ export class InMemoryAnimalsRepository {
       ...(patch.countryCode !== undefined ? { countryCode: patch.countryCode } : {}),
       ...(patch.ownerDeclaration !== undefined ? { ownerDeclaration: patch.ownerDeclaration } : {}),
       ...(patch.healthStatus !== undefined ? { healthStatus: patch.healthStatus } : {}),
+      ...(patch.verificationDimensions !== undefined
+        ? {
+            verificationDimensions: {
+              ...current.verificationDimensions,
+              ...patch.verificationDimensions,
+            },
+          }
+        : {}),
       updatedAt: new Date().toISOString(),
     };
     this.animals.set(id, updated);

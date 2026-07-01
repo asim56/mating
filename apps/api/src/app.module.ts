@@ -24,6 +24,8 @@ import { UsersModule } from './modules/users/users.module';
 import { PaymentsModule } from './modules/payments/payments.module';
 import { WalletLedgerModule } from './modules/wallet-ledger/wallet-ledger.module';
 import { VerificationModule } from './modules/verification/verification.module';
+import { ReviewsModule } from './modules/reviews/reviews.module';
+import { TrustAdminModule } from './modules/admin/admin.module';
 
 @Module({
   imports: [
@@ -48,6 +50,8 @@ import { VerificationModule } from './modules/verification/verification.module';
     AnimalHealthModule,
     PedigreeModule,
     VerificationModule,
+    ReviewsModule,
+    TrustAdminModule,
     MarketplaceModule,
     MatchingModule,
     BreedingRequestsModule,

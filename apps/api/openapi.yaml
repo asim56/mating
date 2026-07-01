@@ -100,3 +100,50 @@ paths:
     delete:
       tags: [saved-listings]
       summary: Unsave listing
+  /api/v1/admin/verifications:
+    get:
+      tags: [admin]
+      summary: Admin verification queue
+  /api/v1/admin/verifications/{id}/approve:
+    post:
+      tags: [admin]
+      summary: Approve verification dimension
+  /api/v1/admin/verifications/{id}/reject:
+    post:
+      tags: [admin]
+      summary: Reject verification dimension
+  /api/v1/admin/disputes:
+    get:
+      tags: [admin]
+      summary: List disputes for support queue
+  /api/v1/admin/disputes/{id}/resolve:
+    post:
+      tags: [admin]
+      summary: Resolve dispute with optional refund
+  /api/v1/reviews:
+    get:
+      tags: [reviews]
+      summary: List published reviews
+    post:
+      tags: [reviews]
+      summary: Submit post-completion review
+  /api/v1/users/{id}/reputation:
+    get:
+      tags: [reviews]
+      summary: Reputation summary
+  /api/v1/admin/reviews/{id}/moderate:
+    post:
+      tags: [admin]
+      summary: Moderate review
+  /api/v1/admin/listings/{id}/suspend:
+    post:
+      tags: [admin]
+      summary: Suspend listing
+  /api/v1/admin/audit-logs:
+    get:
+      tags: [admin]
+      summary: Search audit logs
+  /api/v1/admin/dashboards/summary:
+    get:
+      tags: [admin]
+      summary: Business operations dashboard

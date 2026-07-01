@@ -59,7 +59,7 @@ export type AnimalCreate = {
 };
 
 export type AnimalUpdate = Partial<
-  Omit<AnimalCreate, 'ownerId' | 'regionCode' | 'regionId' | 'verificationDimensions'>
+  Omit<AnimalCreate, 'ownerId' | 'regionCode' | 'regionId'>
 > & {
   ownerDeclaration?: boolean;
   healthStatus?: AnimalHealthStatus;

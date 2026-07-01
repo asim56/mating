@@ -13,6 +13,7 @@ export const SELF_SELECTABLE_ROLES = ['buyer', 'breeder', 'animal_owner'] as con
 export const ADMIN_ONLY_ROLES = [
   'super_admin',
   'support_agent',
+  'field_onboarding_rep',
   'veterinarian',
   'inspector',
 ] as const;

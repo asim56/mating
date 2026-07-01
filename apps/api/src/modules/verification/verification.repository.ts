@@ -76,6 +76,41 @@ export class InMemoryVerificationRequestsRepository {
     return rows.slice(0, filter.limit + 1);
   }
 
+  async findById(id: string): Promise<VerificationRequest | null> {
+    const row = this.requests.get(id);
+    return row ? { ...row, checklist: { ...row.checklist } } : null;
+  }
+
+  async updateDecision(
+    id: string,
+    patch: {
+      status: 'approved' | 'rejected';
+      reviewerId: string;
+      notes: string | null;
+    },
+  ): Promise<VerificationRequest | null> {
+    const current = this.requests.get(id);
+    if (!current) return null;
+    const now = new Date().toISOString();
+    const updated: VerificationRequest = {
+      ...current,
+      status: patch.status,
+      reviewerId: patch.reviewerId,
+      notes: patch.notes,
+      updatedAt: now,
+    };
+    this.requests.set(id, updated);
+    return { ...updated, checklist: { ...updated.checklist } };
+  }
+
+  async countByStatus(): Promise<Record<string, number>> {
+    const counts: Record<string, number> = {};
+    for (const row of this.requests.values()) {
+      counts[row.status] = (counts[row.status] ?? 0) + 1;
+    }
+    return counts;
+  }
+
   async listAdmin(filter: {
     status?: string;
     dimension?: string;

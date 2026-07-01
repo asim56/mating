@@ -9,6 +9,7 @@ export const REGIONS = {
 export const USER_ROLES = [
   'super_admin',
   'support_agent',
+  'field_onboarding_rep',
   'breeder',
   'animal_owner',
   'veterinarian',
@@ -33,3 +34,5 @@ export * from './auth';
 export * from './animal';
 export * from './listing';
 export * from './breeding';
+export * from './reputation-weights';
+export * from './verification-rbac';
