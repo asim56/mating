@@ -1,0 +1,2 @@
+-- Row Level Security policies are versioned alongside schema migrations.
+-- Add policy files here as tables are introduced.
