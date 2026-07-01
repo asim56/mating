@@ -1,6 +1,65 @@
 {
   "openapi": "3.0.0",
   "paths": {
+    "/api/v1/devices": {
+      "post": {
+        "operationId": "DevicesController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDeviceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Register a push notification device",
+        "tags": [
+          "devices"
+        ]
+      }
+    },
+    "/api/v1/devices/{id}": {
+      "delete": {
+        "operationId": "DevicesController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Remove a device token",
+        "tags": [
+          "devices"
+        ]
+      }
+    },
     "/api/v1/health": {
       "get": {
         "operationId": "HealthController_getHealth",
@@ -23,6 +82,582 @@
         "summary": "Liveness + readiness check with version and dependency status",
         "tags": [
           "health"
+        ]
+      }
+    },
+    "/api/v1/auth/otp/request": {
+      "post": {
+        "operationId": "IdentityController_requestOtp",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OtpRequestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OTP dispatched"
+          }
+        },
+        "summary": "Request phone OTP for sign-up or sign-in",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/auth/otp/verify": {
+      "post": {
+        "operationId": "IdentityController_verifyOtp",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OtpVerifyDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Session issued"
+          }
+        },
+        "summary": "Verify phone OTP and issue a session",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/auth/register": {
+      "post": {
+        "operationId": "IdentityController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterEmailDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": ""
+          }
+        },
+        "summary": "Register with email and password",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/auth/email/verify": {
+      "post": {
+        "operationId": "IdentityController_verifyEmail",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyEmailDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Verify email ownership",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "operationId": "IdentityController_login",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginEmailDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Sign in with email and password",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/auth/recover": {
+      "post": {
+        "operationId": "IdentityController_recover",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RecoverDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Begin account recovery",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/auth/recover/confirm": {
+      "post": {
+        "operationId": "IdentityController_recoverConfirm",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Complete account recovery",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "operationId": "IdentityController_logout",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "summary": "Revoke the current session",
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/api/v1/me/email": {
+      "post": {
+        "operationId": "MeController_addEmail",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AddEmailDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "202": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Add email to phone-first account",
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/api/v1/me/sessions": {
+      "get": {
+        "operationId": "MeController_listSessions",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "List active sessions",
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/api/v1/me/sessions/revoke": {
+      "post": {
+        "operationId": "MeController_revokeSessions",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RevokeSessionsDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Revoke one or all sessions",
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/api/v1/me": {
+      "get": {
+        "operationId": "UsersController_me",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Get current account profile",
+        "tags": [
+          "users"
+        ]
+      },
+      "patch": {
+        "operationId": "UsersController_patchMe",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchMeDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update own profile",
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/api/v1/auth/profile": {
+      "post": {
+        "operationId": "UsersController_completeProfile",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompleteProfileDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Complete marketplace profile after sign-up",
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/api/v1/me/notification-preferences": {
+      "get": {
+        "operationId": "UsersController_getPrefs",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "List notification preferences",
+        "tags": [
+          "users"
+        ]
+      },
+      "patch": {
+        "operationId": "UsersController_patchPrefs",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchPreferencesDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Update notification preferences",
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/api/v1/me/consents": {
+      "post": {
+        "operationId": "UsersController_consent",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Record marketing or other consent",
+        "tags": [
+          "users"
+        ]
+      }
+    },
+    "/api/v1/admin/users": {
+      "get": {
+        "operationId": "AdminController_list",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "summary": "Search/list accounts",
+        "tags": [
+          "admin/users"
+        ]
+      }
+    },
+    "/api/v1/admin/users/{id}/status": {
+      "patch": {
+        "operationId": "AdminController_updateStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStatusDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin/users"
+        ]
+      }
+    },
+    "/api/v1/admin/users/{id}/revoke-sessions": {
+      "post": {
+        "operationId": "AdminController_revokeSessions",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin/users"
+        ]
+      }
+    },
+    "/api/v1/admin/users/{id}/roles": {
+      "post": {
+        "operationId": "AdminController_grantRole",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GrantRoleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin/users"
+        ]
+      }
+    },
+    "/api/v1/admin/users/{id}/roles/{role}": {
+      "delete": {
+        "operationId": "AdminController_revokeRole",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "role",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "admin/users"
         ]
       }
     },
@@ -403,6 +1038,10 @@
       }
     },
     "schemas": {
+      "RegisterDeviceDto": {
+        "type": "object",
+        "properties": {}
+      },
       "HealthChecksDto": {
         "type": "object",
         "properties": {
@@ -461,6 +1100,155 @@
           "uptimeSeconds",
           "checks"
         ]
+      },
+      "OtpRequestDto": {
+        "type": "object",
+        "properties": {
+          "phone": {
+            "type": "string",
+            "example": "+923001234567"
+          }
+        },
+        "required": [
+          "phone"
+        ]
+      },
+      "OtpVerifyDto": {
+        "type": "object",
+        "properties": {
+          "phone": {
+            "type": "string",
+            "example": "+923001234567"
+          },
+          "code": {
+            "type": "string",
+            "example": "123456"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "buyer",
+              "breeder",
+              "animal_owner"
+            ]
+          },
+          "deviceDescriptor": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "phone",
+          "code"
+        ]
+      },
+      "RegisterEmailDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "user@example.com"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 10
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "buyer",
+              "breeder",
+              "animal_owner"
+            ]
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "VerifyEmailDto": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "token"
+        ]
+      },
+      "LoginEmailDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "deviceDescriptor": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "RecoverDto": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "description": "Phone E.164 or email address"
+          }
+        },
+        "required": [
+          "identifier"
+        ]
+      },
+      "AddEmailDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "RevokeSessionsDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "PatchMeDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CompleteProfileDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "PatchPreferencesDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "ConsentDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateStatusDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "GrantRoleDto": {
+        "type": "object",
+        "properties": {}
       },
       "RegionPublicDto": {
         "type": "object",

@@ -18,8 +18,8 @@ test('admin breed routes are gated to super_admin via @Roles metadata', () => {
   assert.deepEqual(required, ['super_admin']);
 });
 
-test('only super_admin may manage the breed taxonomy; other roles get 403', () => {
-  assertRoleMatrix({
+test('only super_admin may manage the breed taxonomy; other roles get 403', async () => {
+  await assertRoleMatrix({
     guardFor: (required) => new RolesGuard(metadataReflector({ [ROLES_KEY]: required })),
     required: ['super_admin'],
     allowed: [['super_admin']],

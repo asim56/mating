@@ -47,18 +47,22 @@ export function makeExecutionContext(request: Partial<MockRequest> = {}): {
 }
 
 /** Asserts a guard grants access for the given context. */
-export function expectGranted(guard: CanActivate, ctx: ExecutionContext): void {
-  assert.equal(guard.canActivate(ctx), true);
+export async function expectGranted(guard: CanActivate, ctx: ExecutionContext): Promise<void> {
+  const result = guard.canActivate(ctx);
+  assert.equal(await Promise.resolve(result), true);
 }
 
 /** Asserts a guard denies access with the expected stable error code. */
-export function expectDenied(
+export async function expectDenied(
   guard: CanActivate,
   ctx: ExecutionContext,
   expectedCode: ErrorCode,
-): void {
-  assert.throws(
-    () => guard.canActivate(ctx),
+): Promise<void> {
+  await assert.rejects(
+    async () => {
+      const result = guard.canActivate(ctx);
+      await Promise.resolve(result);
+    },
     (error: unknown) => {
       assert.ok(error instanceof ApiError, 'expected an ApiError');
       assert.equal(error.code, expectedCode);
@@ -71,20 +75,20 @@ export function expectDenied(
  * Asserts a role-matrix: every role in `allowed` is granted and every role in
  * `denied` is rejected by the supplied guard for the given required roles.
  */
-export function assertRoleMatrix(options: {
+export async function assertRoleMatrix(options: {
   guardFor: (required: UserRole[]) => CanActivate;
   required: UserRole[];
   allowed: UserRole[][];
   denied: UserRole[][];
-}): void {
+}): Promise<void> {
   for (const roles of options.allowed) {
     const guard = options.guardFor(options.required);
     const { ctx } = makeExecutionContext({ user: { id: 'u', roles } });
-    expectGranted(guard, ctx);
+    await expectGranted(guard, ctx);
   }
   for (const roles of options.denied) {
     const guard = options.guardFor(options.required);
     const { ctx } = makeExecutionContext({ user: { id: 'u', roles } });
-    expectDenied(guard, ctx, 'FORBIDDEN');
+    await expectDenied(guard, ctx, 'FORBIDDEN');
   }
 }

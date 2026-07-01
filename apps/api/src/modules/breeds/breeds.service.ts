@@ -4,8 +4,8 @@ import { ApiError, ERROR_CODES } from '../../common';
 import type { CreateBreedDto } from './dto/create-breed.dto';
 import type { UpdateBreedDto } from './dto/update-breed.dto';
 import { type Breed, type BreedPublicView, toPublicView } from './entities/breed.entity';
+import { AUDIT_EMITTER } from '../audit/audit.service';
 import {
-  AUDIT_EMITTER,
   type AuditEmitter,
   breedCreatedEvent,
   breedUpdatedEvent,

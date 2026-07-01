@@ -81,9 +81,7 @@ const CONSERVATIVE_DEFAULT: SpeciesEligibility = {
 };
 
 /**
- * Canonical, seeded region definitions. PK launches first (PKR, en/ur,
- * Easypaisa/JazzCash/bank); US is staged for Phase 3 (USD, en, Stripe) and
- * seeded inactive so it never surfaces in the Pakistan MVP.
+ * Canonical, seeded region definitions. PK and US dual-launch (both active).
  */
 export const REGION_DEFINITIONS: Record<RegionCode, RegionDefinition> = {
   PK: {
@@ -117,7 +115,7 @@ export const REGION_DEFINITIONS: Record<RegionCode, RegionDefinition> = {
     currencyCode: REGIONS.US.currency,
     defaultLocale: REGIONS.US.defaultLocale,
     locales: ['en'],
-    active: false,
+    active: true,
     config: {
       eligibility: { species: US_SPECIES_ELIGIBILITY, defaults: CONSERVATIVE_DEFAULT },
       compliance: {

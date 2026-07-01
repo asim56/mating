@@ -29,8 +29,8 @@ test('listPublic returns only active regions, projected without config', async (
   const regions = await service.listPublic();
 
   assert.deepEqual(
-    regions.map((r) => r.code),
-    ['PK'],
+    regions.map((r) => r.code).sort(),
+    ['PK', 'US'],
   );
   const pk = regions[0]!;
   assert.equal(pk.currencyCode, 'PKR');

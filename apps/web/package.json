@@ -16,6 +16,7 @@
     "@mating/config": "workspace:*",
     "@mating/shared": "workspace:*",
     "@mating/ui": "workspace:*",
+    "@supabase/supabase-js": "^2.110.0",
     "@tanstack/react-query": "^5.68.0",
     "next": "^15.2.2",
     "react": "^19.0.0",

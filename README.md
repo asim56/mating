@@ -1,6 +1,6 @@
 # Mating Marketplace
 
-Pakistan-first animal breeding marketplace monorepo. This repository ships the **project foundation** — tooling, shared libraries, Docker, CI/CD, and app scaffolds. Business features are implemented in subsequent checkpoints per `doc/Agent.md`.
+Pakistan-first animal breeding marketplace monorepo. **M1 (001-identity-auth)** delivers identity, profiles, dual PK/US regions, audit, analytics, and notifications foundation.
 
 ## Stack
 
@@ -57,7 +57,7 @@ pnpm dev
 | Service            | URL                                 |
 | ------------------ | ----------------------------------- |
 | Web                | http://localhost:3000               |
-| API                | http://localhost:4000               |
+| API                | http://localhost:4000 (long-running host in staging/production — see `doc/Setup.md`) |
 | API docs (Swagger) | http://localhost:4000/docs          |
 | Health check       | http://localhost:4000/api/v1/health |
 

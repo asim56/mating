@@ -11,8 +11,14 @@ export const apiEnvSchema = z.object({
     .transform((value) => value.split(',').map((origin) => origin.trim())),
 
   SUPABASE_URL: z.string().url().default('http://127.0.0.1:54321'),
-  SUPABASE_ANON_KEY: z.string().default('dev-anon-key'),
-  SUPABASE_SERVICE_ROLE_KEY: z.string().default('dev-service-role-key'),
+  SUPABASE_ANON_KEY: z
+    .string()
+    .default('dev-anon-key')
+    .transform((value) => value || 'dev-anon-key'),
+  SUPABASE_SERVICE_ROLE_KEY: z
+    .string()
+    .default('dev-service-role-key')
+    .transform((value) => value || 'dev-service-role-key'),
   DATABASE_URL: z
     .string()
     .url()
@@ -21,6 +27,8 @@ export const apiEnvSchema = z.object({
 
   JWT_AUDIENCE: z.string().default('authenticated'),
   JWT_ISSUER: z.string().default('supabase'),
+  /** Phone or email of the account granted super_admin on bootstrap seed. */
+  ADMIN_BOOTSTRAP_IDENTIFIER: z.string().optional(),
 
   RESEND_API_KEY: z.string().optional(),
   SMS_PROVIDER: z.enum(['twilio', 'local']).default('twilio'),

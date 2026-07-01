@@ -7,16 +7,19 @@ import { ApiError } from '../errors/api-error';
 import { ERROR_CODES } from '../errors/error-codes';
 import { type AuthenticatedUser, IS_PUBLIC_KEY } from './roles.decorator';
 
+export const TOKEN_VERIFIER = 'TOKEN_VERIFIER';
+
 export type VerifiedToken = {
   sub: string;
   email?: string;
   roles?: UserRole[];
   exp?: number;
+  session_id?: string;
   [claim: string]: unknown;
 };
 
 export interface TokenVerifier {
-  verify(token: string): VerifiedToken;
+  verify(token: string): VerifiedToken | Promise<VerifiedToken>;
 }
 
 /**
@@ -56,12 +59,10 @@ export class StructuralTokenVerifier implements TokenVerifier {
 export class JwtAuthGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
-    // Optional so Nest can construct the guard via DI; the structural verifier is
-    // the runtime default until JWKS verification is injected (IDENTITY-01).
     @Optional() private readonly verifier: TokenVerifier = new StructuralTokenVerifier(),
   ) {}
 
-  canActivate(context: ExecutionContext): boolean {
+  async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass(),
@@ -86,7 +87,7 @@ export class JwtAuthGuard implements CanActivate {
 
     let verified: VerifiedToken;
     try {
-      verified = this.verifier.verify(token);
+      verified = await this.verifier.verify(token);
     } catch {
       throw new ApiError(
         ERROR_CODES.UNAUTHENTICATED,
@@ -99,6 +100,7 @@ export class JwtAuthGuard implements CanActivate {
       id: verified.sub,
       roles: Array.isArray(verified.roles) ? verified.roles : [],
       ...(verified.email ? { email: verified.email } : {}),
+      ...(verified.session_id ? { sessionId: verified.session_id } : {}),
     };
 
     return true;

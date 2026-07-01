@@ -34,3 +34,5 @@ export type Timestamps = {
 export type SoftDeletable = {
   deletedAt: string | null;
 };
+
+export * from './auth';

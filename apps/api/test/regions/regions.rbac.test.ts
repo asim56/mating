@@ -25,8 +25,8 @@ test('admin region routes are gated to super_admin via @Roles metadata', () => {
   assert.deepEqual(required, ['super_admin']);
 });
 
-test('only super_admin may manage region config; other roles get 403', () => {
-  assertRoleMatrix({
+test('only super_admin may manage region config; other roles get 403', async () => {
+  await assertRoleMatrix({
     guardFor: (required) => new RolesGuard(metadataReflector({ [ROLES_KEY]: required })),
     required: ['super_admin'],
     allowed: [['super_admin']],
@@ -34,18 +34,18 @@ test('only super_admin may manage region config; other roles get 403', () => {
   });
 });
 
-test('JwtAuthGuard rejects a missing token with 401', () => {
+test('JwtAuthGuard rejects a missing token with 401', async () => {
   const guard = new JwtAuthGuard(metadataReflector({}));
   const { ctx } = makeExecutionContext({ headers: {} });
-  expectDenied(guard, ctx, 'UNAUTHENTICATED');
+  await expectDenied(guard, ctx, 'UNAUTHENTICATED');
 });
 
-test('JwtAuthGuard accepts a structurally valid token and attaches the principal', () => {
+test('JwtAuthGuard accepts a structurally valid token and attaches the principal', async () => {
   const guard = new JwtAuthGuard(metadataReflector({}));
   const token = signTestToken({ sub: 'user-super-admin', roles: ['super_admin'] });
   const { ctx, request } = makeExecutionContext({ headers: { authorization: `Bearer ${token}` } });
 
-  expectGranted(guard, ctx);
+  await expectGranted(guard, ctx);
   assert.equal(request.user?.id, 'user-super-admin');
   assert.deepEqual(request.user?.roles, ['super_admin']);
 });

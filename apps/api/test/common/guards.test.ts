@@ -25,10 +25,10 @@ function makeContext(request: RequestShape): ExecutionContext {
   } as unknown as ExecutionContext;
 }
 
-test('JwtAuthGuard rejects a missing Authorization header with 401', () => {
+test('JwtAuthGuard rejects a missing Authorization header with 401', async () => {
   const guard = new JwtAuthGuard(new Reflector());
-  assert.throws(
-    () => guard.canActivate(makeContext({ headers: {} })),
+  await assert.rejects(
+    async () => guard.canActivate(makeContext({ headers: {} })),
     (error: unknown) => {
       assert.ok(error instanceof ApiError);
       assert.equal(error.code, ERROR_CODES.UNAUTHENTICATED);
@@ -38,10 +38,11 @@ test('JwtAuthGuard rejects a missing Authorization header with 401', () => {
   );
 });
 
-test('JwtAuthGuard rejects a malformed token with 401', () => {
+test('JwtAuthGuard rejects a malformed token with 401', async () => {
   const guard = new JwtAuthGuard(new Reflector());
-  assert.throws(
-    () => guard.canActivate(makeContext({ headers: { authorization: 'Bearer not-a-jwt' } })),
+  await assert.rejects(
+    async () =>
+      guard.canActivate(makeContext({ headers: { authorization: 'Bearer not-a-jwt' } })),
     (error: unknown) => {
       assert.ok(error instanceof ApiError);
       assert.equal(error.getStatus(), 401);
@@ -50,13 +51,13 @@ test('JwtAuthGuard rejects a malformed token with 401', () => {
   );
 });
 
-test('JwtAuthGuard attaches the verified user for a valid token', () => {
+test('JwtAuthGuard attaches the verified user for a valid token', async () => {
   const guard = new JwtAuthGuard(new Reflector());
   const request: RequestShape = {
     headers: { authorization: `Bearer ${signTestToken({ sub: 'user-1', roles: ['breeder'] })}` },
   };
 
-  assert.equal(guard.canActivate(makeContext(request)), true);
+  assert.equal(await guard.canActivate(makeContext(request)), true);
   assert.equal(request.user?.id, 'user-1');
   assert.deepEqual(request.user?.roles, ['breeder']);
 });

@@ -1,8 +1,7 @@
 -- Seed data. Source of truth for these values is @mating/shared
 -- (config/eligibility REGION_DEFINITIONS); keep this file in sync with it.
 
--- config/regions (M1): Pakistan launches first (active); the United States is
--- staged for Phase 3 and seeded inactive. `config` carries per-species breeding
+-- config/regions (M1): Pakistan and United States dual-launch (both active).
 -- eligibility, compliance flags, and supported payment methods.
 insert into public.regions (code, name, currency_code, default_locale, locales, active, config)
 values
@@ -41,7 +40,7 @@ values
     'USD',
     'en',
     array['en'],
-    false,
+    true,
     '{
       "eligibility": {
         "species": {
@@ -66,6 +65,35 @@ on conflict (code) do update set
   active = excluded.active,
   config = excluded.config,
   updated_at = now();
+
+-- Bootstrap super_admin when ADMIN_BOOTSTRAP_IDENTIFIER matches an auth user.
+-- Set via env: ADMIN_BOOTSTRAP_IDENTIFIER=+923001234567 or admin@example.com
+do $$
+declare
+  bootstrap_id text := current_setting('app.admin_bootstrap_identifier', true);
+  target_id uuid;
+begin
+  if bootstrap_id is null or bootstrap_id = '' then
+    return;
+  end if;
+
+  select id into target_id
+  from auth.users
+  where phone = bootstrap_id or email = bootstrap_id
+  limit 1;
+
+  if target_id is null then
+    return;
+  end if;
+
+  insert into public.user_roles (account_id, role, granted_by)
+  values (target_id, 'super_admin', null)
+  on conflict (account_id, role) do nothing;
+
+  insert into public.account_status (account_id, status)
+  values (target_id, 'active')
+  on conflict (account_id) do nothing;
+end $$;
 
 -- breeds (M1): priority Pakistan breeds per species. Source of truth for these
 -- values is @mating/shared (config/breeds BREED_DEFINITIONS); keep in sync.

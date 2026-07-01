@@ -32,6 +32,12 @@ export function LocaleProvider({ locale, children }: { locale: Locale; children:
   // Keep the document element in sync so direction/lang are correct app-wide,
   // including portals rendered outside the localized subtree.
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const segment = window.location.pathname.split('/')[1];
+      if (segment === 'en' || segment === 'ur') {
+        localStorage.setItem('preferred_locale', segment);
+      }
+    }
     if (typeof document !== 'undefined') {
       document.documentElement.lang = locale;
       document.documentElement.dir = dirForLocale(locale);

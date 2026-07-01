@@ -38,14 +38,11 @@ test('seeded PK/US currency, locale, and active flag match the canonical shared 
   assert.ok(SEED.includes("'PKR'"), 'seed includes PK currency');
   assert.match(SEED, /array\['en', 'ur'\]/);
 
-  // US: USD, staged inactive.
+  // US: USD, dual-launch active.
   assert.equal(REGION_DEFINITIONS.US.currencyCode, 'USD');
   assert.ok(SEED.includes("'USD'"), 'seed includes US currency');
-
-  // Active flags: PK true, US false (true then false in row order).
-  const trueIdx = SEED.indexOf('\n    true,');
-  const falseIdx = SEED.indexOf('\n    false,');
-  assert.ok(trueIdx > -1 && falseIdx > -1 && trueIdx < falseIdx);
+  assert.equal(REGION_DEFINITIONS.US.active, true);
+  assert.equal(REGION_DEFINITIONS.PK.active, true);
 });
 
 test('seeded jsonb config carries eligibility, compliance, and payment methods', () => {

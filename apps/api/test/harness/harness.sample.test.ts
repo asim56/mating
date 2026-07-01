@@ -7,8 +7,8 @@ import { ROLES_KEY } from '../../src/common/auth/roles.decorator';
 import { assertRoleMatrix, metadataReflector } from './rbac';
 import { assertTransitions, type TransitionMap } from './state-transitions';
 
-test('harness: RBAC role-matrix sample (admin-only action)', () => {
-  assertRoleMatrix({
+test('harness: RBAC role-matrix sample (admin-only action)', async () => {
+  await assertRoleMatrix({
     guardFor: (required) => new RolesGuard(metadataReflector({ [ROLES_KEY]: required })),
     required: ['super_admin', 'support_agent'],
     allowed: [['super_admin'], ['support_agent']] as UserRole[][],

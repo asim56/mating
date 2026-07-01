@@ -8,12 +8,12 @@ import {
   type RegionUpdate,
   toPublicView,
 } from './entities/region.entity';
+import { AUDIT_EMITTER } from '../audit/audit.service';
+import { REGION_REPOSITORY, type RegionRepository } from './regions.repository';
 import {
-  AUDIT_EMITTER,
   type AuditEmitter,
   regionUpdatedEvent,
 } from './events/region-updated.event';
-import { REGION_REPOSITORY, type RegionRepository } from './regions.repository';
 
 @Injectable()
 export class RegionsService {

@@ -1,7 +1,7 @@
-import { Body, Controller, Get, Param, Patch, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Req } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { type AuthenticatedUser, JwtAuthGuard, Public, Roles, RolesGuard } from '../../common';
+import { type AuthenticatedUser, Public, Roles } from '../../common';
 import { RegionDto, RegionPublicDto } from './dto/region-response.dto';
 import { UpdateRegionDto } from './dto/update-region.dto';
 import type { Region, RegionPublicView } from './entities/region.entity';
@@ -26,7 +26,6 @@ export class RegionsController {
 @ApiTags('admin/regions')
 @ApiBearerAuth()
 @Controller('admin/regions')
-@UseGuards(JwtAuthGuard, RolesGuard)
 @Roles('super_admin')
 export class AdminRegionsController {
   constructor(private readonly regions: RegionsService) {}

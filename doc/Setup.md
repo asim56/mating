@@ -92,7 +92,7 @@ PAYMENT_WEBHOOK_SECRET=
 
 ## API Hosting Decision
 
-Resolved in M0 (DEVOPS-02). The open question from `ImplementationPlan.md` ("Vercel for API where feasible") is decided as follows:
+Resolved in M0 (DEVOPS-02). M1 identity API runs on the same long-running host locally (`pnpm --filter @mating/api dev` on port 4000) and in staging/production.
 
 | Component       | Host                                              | Rationale                                                                     |
 | --------------- | ------------------------------------------------- | ----------------------------------------------------------------------------- |

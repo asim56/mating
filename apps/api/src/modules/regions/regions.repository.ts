@@ -87,3 +87,75 @@ export class InMemoryRegionRepository implements RegionRepository {
     return clone(updated);
   }
 }
+
+/** Supabase-backed region repository (service-role bypasses RLS). */
+@Injectable()
+export class SupabaseRegionRepository implements RegionRepository {
+  constructor(private readonly supabase: import('../../infra/supabase/supabase.service').SupabaseService) {}
+
+  async findAll(): Promise<Region[]> {
+    const { data, error } = await this.supabase.client.from('regions').select('*');
+    if (error) {
+      throw new Error(error.message);
+    }
+    return (data ?? []).map((row) => this.mapRow(row));
+  }
+
+  async findActive(): Promise<Region[]> {
+    const { data, error } = await this.supabase.client.from('regions').select('*').eq('active', true);
+    if (error) {
+      throw new Error(error.message);
+    }
+    return (data ?? []).map((row) => this.mapRow(row));
+  }
+
+  async findByCode(code: string): Promise<Region | null> {
+    const { data, error } = await this.supabase.client
+      .from('regions')
+      .select('*')
+      .eq('code', code)
+      .maybeSingle();
+    if (error) {
+      throw new Error(error.message);
+    }
+    return data ? this.mapRow(data) : null;
+  }
+
+  async update(code: string, patch: RegionUpdate): Promise<Region | null> {
+    const current = await this.findByCode(code);
+    if (!current) {
+      return null;
+    }
+    const mergedConfig: RegionConfig = patch.config
+      ? { ...current.config, ...patch.config }
+      : current.config;
+    const { data, error } = await this.supabase.client
+      .from('regions')
+      .update({
+        ...(patch.name !== undefined ? { name: patch.name } : {}),
+        ...(patch.defaultLocale !== undefined ? { default_locale: patch.defaultLocale } : {}),
+        ...(patch.locales !== undefined ? { locales: patch.locales } : {}),
+        ...(patch.active !== undefined ? { active: patch.active } : {}),
+        config: mergedConfig,
+      })
+      .eq('code', code)
+      .select()
+      .single();
+    if (error) {
+      throw new Error(error.message);
+    }
+    return this.mapRow(data);
+  }
+
+  private mapRow(row: Record<string, unknown>): Region {
+    return {
+      code: row.code as RegionCode,
+      name: row.name as string,
+      currencyCode: row.currency_code as string,
+      defaultLocale: row.default_locale as string,
+      locales: row.locales as string[],
+      active: row.active as boolean,
+      config: row.config as RegionConfig,
+    };
+  }
+}

@@ -8,11 +8,10 @@ import {
   Post,
   Query,
   Req,
-  UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-import { type AuthenticatedUser, JwtAuthGuard, Public, Roles, RolesGuard } from '../../common';
+import { type AuthenticatedUser, Public, Roles } from '../../common';
 import { BreedsService } from './breeds.service';
 import { BreedDto, BreedPublicDto } from './dto/breed-response.dto';
 import { CreateBreedDto } from './dto/create-breed.dto';
@@ -39,7 +38,6 @@ export class BreedsController {
 @ApiTags('admin/breeds')
 @ApiBearerAuth()
 @Controller('admin/breeds')
-@UseGuards(JwtAuthGuard, RolesGuard)
 @Roles('super_admin')
 export class AdminBreedsController {
   constructor(private readonly breeds: BreedsService) {}

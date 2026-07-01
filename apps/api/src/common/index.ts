@@ -16,5 +16,8 @@ export * from './rate-limit/rate-limit.guard';
 
 export * from './auth/roles.decorator';
 export * from './auth/jwt.guard';
+export * from './auth/jwks-token-verifier';
 export * from './auth/roles.guard';
+export * from './auth/account-status.guard';
+export * from './auth/session.guard';
 export * from './auth/ownership-policy.base';

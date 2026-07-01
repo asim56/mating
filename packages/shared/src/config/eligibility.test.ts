@@ -18,7 +18,7 @@ test('PK and US region definitions exist with currency and default locale', () =
   const us = getRegionDefinition('US');
   assert.equal(us.currencyCode, 'USD');
   assert.equal(us.defaultLocale, 'en');
-  assert.equal(us.active, false, 'US is staged for Phase 3 and seeded inactive');
+  assert.equal(us.active, true, 'US dual-launch is active alongside PK');
 });
 
 test('PK seeds the Pakistan payment methods; US seeds Stripe', () => {
