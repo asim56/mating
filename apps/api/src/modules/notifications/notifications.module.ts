@@ -5,11 +5,12 @@ import { DevicesController } from './devices.controller';
 import { DevicesService } from './devices.service';
 import { OutboxDrainer } from './outbox.drainer';
 import { OutboxRepository } from './outbox.repository';
+import { BreedingNotificationProducer } from './producers/breeding-notification.producer';
 
 @Module({
   imports: [SupabaseModule],
   controllers: [DevicesController],
-  providers: [OutboxRepository, OutboxDrainer, DevicesService],
-  exports: [OutboxRepository, OutboxDrainer, DevicesService],
+  providers: [OutboxRepository, OutboxDrainer, DevicesService, BreedingNotificationProducer],
+  exports: [OutboxRepository, OutboxDrainer, DevicesService, BreedingNotificationProducer],
 })
 export class NotificationsModule {}

@@ -30,6 +30,14 @@ test('OpenAPI document generates and serializes with the health path', async () 
       paths.some((path) => path.includes('/health')),
       `expected a /health path, got: ${paths.join(', ')}`,
     );
+    assert.ok(
+      paths.some((path) => path.includes('/breeding-requests')),
+      `expected breeding-requests paths, got: ${paths.join(', ')}`,
+    );
+    assert.ok(
+      paths.some((path) => path.includes('/conversations')),
+      `expected conversations paths, got: ${paths.join(', ')}`,
+    );
   } finally {
     await app.close();
   }

@@ -16,13 +16,6 @@ export const USER_ROLES = [
   'buyer',
 ] as const;
 
-export const BREEDING_METHODS = [
-  'natural',
-  'artificial_insemination',
-  'semen_purchase',
-  'record_only',
-] as const;
-
 export const SPECIES = ['cattle', 'buffalo', 'goat', 'sheep', 'dog'] as const;
 
 export const STORAGE_BUCKETS = [
@@ -39,3 +32,4 @@ export const PAGINATION_MAX_LIMIT = 100;
 export * from './auth';
 export * from './animal';
 export * from './listing';
+export * from './breeding';

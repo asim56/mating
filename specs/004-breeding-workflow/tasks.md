@@ -28,10 +28,10 @@
 
 **Purpose**: Module scaffolding and shared test harness wiring
 
-- [ ] T001 Register `BreedingRequestsModule` and `MessagingModule` imports in `apps/api/src/app.module.ts`
-- [ ] T002 [P] Create breeding workflow test fixtures (owners, animals, listing) in `apps/api/test/breeding-workflow/fixtures.ts`
-- [ ] T003 [P] Add breeding workflow feature barrel export in `apps/web/features/breeding-workflow/index.ts`
-- [ ] T004 [P] Re-export breeding types and enums from `packages/shared/src/index.ts`
+- [X] T001 Register `BreedingRequestsModule` and `MessagingModule` imports in `apps/api/src/app.module.ts`
+- [X] T002 [P] Create breeding workflow test fixtures (owners, animals, listing) in `apps/api/test/breeding-workflow/fixtures.ts`
+- [X] T003 [P] Add breeding workflow feature barrel export in `apps/web/features/breeding-workflow/index.ts`
+- [X] T004 [P] Re-export breeding types and enums from `packages/shared/src/index.ts`
 
 ---
 
@@ -41,16 +41,16 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T005 Create `supabase/migrations/20250803000000_breeding_workflow.sql` with tables, indexes, RLS, and immutability grants per `data-model.md`
-- [ ] T006 [P] Implement `BREEDING_REQUEST_STATUS` enum and status mapper in `packages/shared/src/enums/breeding-request-status.ts`
-- [ ] T007 [P] Implement `BREEDING_REQUEST_TRANSITIONS` and `BreedingRequestStateMachine.assertTransition` in `packages/shared/src/state-machine/breeding-request.state-machine.ts`
-- [ ] T008 [P] Add `BreedingMethod`, `DisputeReasonCode`, and `PHONE_REVEAL_POLICY` in `packages/shared/src/constants/breeding.ts`
-- [ ] T009 [P] Add `BreedingRequest`, `BreedingRequestEvent`, and `BreedingRecord` types in `packages/shared/src/types/breeding-request.ts`
-- [ ] T010 Write exhaustive allowed + denied transition matrix tests in `packages/shared/src/state-machine/breeding-request.state-machine.test.ts`
-- [ ] T011 Scaffold `BreedingRequestsModule` with controller/service/repository providers in `apps/api/src/modules/breeding-requests/breeding-requests.module.ts`
-- [ ] T012 [P] Scaffold `MessagingModule` with controller/service providers in `apps/api/src/modules/messaging/messaging.module.ts`
-- [ ] T013 [P] Implement `BreedingRequestsRepository` (CRUD, events insert, record upsert) in `apps/api/src/modules/breeding-requests/breeding-requests.repository.ts`
-- [ ] T014 Implement eligibility and RBAC policy checks in `apps/api/src/modules/breeding-requests/policies/breeding-request.policy.ts`
+- [X] T005 Create `supabase/migrations/20250803000000_breeding_workflow.sql` with tables, indexes, RLS, and immutability grants per `data-model.md`
+- [X] T006 [P] Implement `BREEDING_REQUEST_STATUS` enum and status mapper in `packages/shared/src/enums/breeding-request-status.ts`
+- [X] T007 [P] Implement `BREEDING_REQUEST_TRANSITIONS` and `BreedingRequestStateMachine.assertTransition` in `packages/shared/src/state-machine/breeding-request.state-machine.ts`
+- [X] T008 [P] Add `BreedingMethod`, `DisputeReasonCode`, and `PHONE_REVEAL_POLICY` in `packages/shared/src/constants/breeding.ts`
+- [X] T009 [P] Add `BreedingRequest`, `BreedingRequestEvent`, and `BreedingRecord` types in `packages/shared/src/types/breeding-request.ts`
+- [X] T010 Write exhaustive allowed + denied transition matrix tests in `packages/shared/src/state-machine/breeding-request.state-machine.test.ts`
+- [X] T011 Scaffold `BreedingRequestsModule` with controller/service/repository providers in `apps/api/src/modules/breeding-requests/breeding-requests.module.ts`
+- [X] T012 [P] Scaffold `MessagingModule` with controller/service providers in `apps/api/src/modules/messaging/messaging.module.ts`
+- [X] T013 [P] Implement `BreedingRequestsRepository` (CRUD, events insert, record upsert) in `apps/api/src/modules/breeding-requests/breeding-requests.repository.ts`
+- [X] T014 Implement eligibility and RBAC policy checks in `apps/api/src/modules/breeding-requests/policies/breeding-request.policy.ts`
 
 **Checkpoint**: Foundation ready — user story implementation can now begin
 
@@ -64,18 +64,18 @@
 
 ### Tests for User Story 1
 
-- [ ] T015 [P] [US1] Contract test for `POST /breeding-requests` in `apps/api/test/breeding-workflow/breeding-requests.create.test.ts`
-- [ ] T016 [P] [US1] Contract test for accept/reject/cancel in `apps/api/test/breeding-workflow/breeding-requests.respond.test.ts`
-- [ ] T017 [P] [US1] Eligibility rejection tests (same animal, wrong sex, inactive listing) in `apps/api/test/breeding-workflow/breeding-requests.eligibility.test.ts`
+- [X] T015 [P] [US1] Contract test for `POST /breeding-requests` in `apps/api/test/breeding-workflow/breeding-requests.create.test.ts`
+- [X] T016 [P] [US1] Contract test for accept/reject/cancel in `apps/api/test/breeding-workflow/breeding-requests.respond.test.ts`
+- [X] T017 [P] [US1] Eligibility rejection tests (same animal, wrong sex, inactive listing) in `apps/api/test/breeding-workflow/breeding-requests.eligibility.test.ts`
 
 ### Implementation for User Story 1
 
-- [ ] T018 [P] [US1] Create request DTOs (`CreateBreedingRequestDto`, list/detail responses) in `apps/api/src/modules/breeding-requests/dto/`
-- [ ] T019 [US1] Implement create, list, and get-with-events in `apps/api/src/modules/breeding-requests/breeding-requests.service.ts`
-- [ ] T020 [US1] Implement accept, reject, and cancel with `assertTransition` in `apps/api/src/modules/breeding-requests/breeding-requests.service.ts`
-- [ ] T021 [US1] Wire CRUD and respond routes in `apps/api/src/modules/breeding-requests/breeding-requests.controller.ts`
-- [ ] T022 [US1] Append `breeding_request_events` and audit `breeding_request.created` / `breeding_request.status_changed` in service layer
-- [ ] T023 [P] [US1] Build request list page in `apps/web/app/[locale]/(dashboard)/requests/page.tsx`
+- [X] T018 [P] [US1] Create request DTOs (`CreateBreedingRequestDto`, list/detail responses) in `apps/api/src/modules/breeding-requests/dto/`
+- [X] T019 [US1] Implement create, list, and get-with-events in `apps/api/src/modules/breeding-requests/breeding-requests.service.ts`
+- [X] T020 [US1] Implement accept, reject, and cancel with `assertTransition` in `apps/api/src/modules/breeding-requests/breeding-requests.service.ts`
+- [X] T021 [US1] Wire CRUD and respond routes in `apps/api/src/modules/breeding-requests/breeding-requests.controller.ts`
+- [X] T022 [US1] Append `breeding_request_events` and audit `breeding_request.created` / `breeding_request.status_changed` in service layer
+- [X] T023 [P] [US1] Build request list page in `apps/web/app/[locale]/(dashboard)/requests/page.tsx`
 
 **Checkpoint**: User Story 1 independently testable
 
@@ -89,17 +89,17 @@
 
 ### Tests for User Story 2
 
-- [ ] T024 [P] [US2] Lifecycle contract test (schedule → close) in `apps/api/test/breeding-workflow/breeding-requests.lifecycle.test.ts`
-- [ ] T025 [P] [US2] Idempotent record generation test (201 then 200, no duplicate rows) in `apps/api/test/breeding-workflow/breeding-records.test.ts`
+- [X] T024 [P] [US2] Lifecycle contract test (schedule → close) in `apps/api/test/breeding-workflow/breeding-requests.lifecycle.test.ts`
+- [X] T025 [P] [US2] Idempotent record generation test (201 then 200, no duplicate rows) in `apps/api/test/breeding-workflow/breeding-records.test.ts`
 
 ### Implementation for User Story 2
 
-- [ ] T026 [US2] Implement schedule, start, complete, and close transitions in `apps/api/src/modules/breeding-requests/breeding-requests.service.ts`
-- [ ] T027 [US2] Implement idempotent record generator with `request_id` UNIQUE enforcement in `apps/api/src/modules/breeding-requests/breeding-records.service.ts`
-- [ ] T028 [US2] Wire schedule/start/complete/record/close endpoints in `apps/api/src/modules/breeding-requests/breeding-requests.controller.ts`
-- [ ] T029 [US2] Enforce `Idempotency-Key` header on `POST /breeding-requests/:id/record` in controller
-- [ ] T030 [P] [US2] Build request detail + event timeline UI in `apps/web/app/[locale]/(dashboard)/requests/[id]/page.tsx`
-- [ ] T031 [P] [US2] Build transition action buttons component in `apps/web/features/breeding-workflow/request-actions.tsx`
+- [X] T026 [US2] Implement schedule, start, complete, and close transitions in `apps/api/src/modules/breeding-requests/breeding-requests.service.ts`
+- [X] T027 [US2] Implement idempotent record generator with `request_id` UNIQUE enforcement in `apps/api/src/modules/breeding-requests/breeding-records.service.ts`
+- [X] T028 [US2] Wire schedule/start/complete/record/close endpoints in `apps/api/src/modules/breeding-requests/breeding-requests.controller.ts`
+- [X] T029 [US2] Enforce `Idempotency-Key` header on `POST /breeding-requests/:id/record` in controller
+- [X] T030 [P] [US2] Build request detail + event timeline UI in `apps/web/app/[locale]/(dashboard)/requests/[id]/page.tsx`
+- [X] T031 [P] [US2] Build transition action buttons component in `apps/web/features/breeding-workflow/request-actions.tsx`
 
 **Checkpoint**: User Stories 1 and 2 independently testable
 
@@ -113,16 +113,16 @@
 
 ### Tests for User Story 3
 
-- [ ] T032 [P] [US3] Phone masking unit tests (100% pre-acceptance mask rate) in `apps/api/test/messaging/phone-mask.test.ts`
-- [ ] T033 [P] [US3] Participant RLS and non-participant 403 test in `apps/api/test/messaging/messaging.rls.test.ts`
+- [X] T032 [P] [US3] Phone masking unit tests (100% pre-acceptance mask rate) in `apps/api/test/messaging/phone-mask.test.ts`
+- [X] T033 [P] [US3] Participant RLS and non-participant 403 test in `apps/api/test/messaging/messaging.rls.test.ts`
 
 ### Implementation for User Story 3
 
-- [ ] T034 [P] [US3] Implement `PhoneMaskService` (E.164 + local PK/US patterns) in `apps/api/src/modules/messaging/phone-mask.service.ts`
-- [ ] T035 [US3] Implement conversation create, list, and message send with masking-on-write in `apps/api/src/modules/messaging/messaging.service.ts`
-- [ ] T036 [US3] Wire conversation and message routes in `apps/api/src/modules/messaging/messaging.controller.ts`
-- [ ] T037 [US3] Implement `POST /messages/:id/report` with audit `message.reported` in `apps/api/src/modules/messaging/messaging.controller.ts`
-- [ ] T038 [P] [US3] Build messages inbox UI in `apps/web/app/[locale]/(dashboard)/messages/page.tsx`
+- [X] T034 [P] [US3] Implement `PhoneMaskService` (E.164 + local PK/US patterns) in `apps/api/src/modules/messaging/phone-mask.service.ts`
+- [X] T035 [US3] Implement conversation create, list, and message send with masking-on-write in `apps/api/src/modules/messaging/messaging.service.ts`
+- [X] T036 [US3] Wire conversation and message routes in `apps/api/src/modules/messaging/messaging.controller.ts`
+- [X] T037 [US3] Implement `POST /messages/:id/report` with audit `message.reported` in `apps/api/src/modules/messaging/messaging.controller.ts`
+- [X] T038 [P] [US3] Build messages inbox UI in `apps/web/app/[locale]/(dashboard)/messages/page.tsx`
 
 **Checkpoint**: User Stories 1–3 independently testable
 
@@ -136,14 +136,14 @@
 
 ### Tests for User Story 4
 
-- [ ] T039 [P] [US4] Dispute open contract test (eligible + denied states) in `apps/api/test/breeding-workflow/disputes.test.ts`
+- [X] T039 [P] [US4] Dispute open contract test (eligible + denied states) in `apps/api/test/breeding-workflow/disputes.test.ts`
 
 ### Implementation for User Story 4
 
-- [ ] T040 [US4] Implement dispute open service (create row, transition to `Disputed`, event log) in `apps/api/src/modules/breeding-requests/disputes.service.ts`
-- [ ] T041 [US4] Wire `POST /breeding-requests/:id/dispute` and `GET /disputes/:id` in `apps/api/src/modules/breeding-requests/breeding-requests.controller.ts`
-- [ ] T042 [US4] Optional conversation freeze on dispute in `apps/api/src/modules/messaging/messaging.service.ts`
-- [ ] T043 [US4] Emit audit `breeding_request.dispute_opened` and analytics `dispute_opened` on open
+- [X] T040 [US4] Implement dispute open service (create row, transition to `Disputed`, event log) in `apps/api/src/modules/breeding-requests/disputes.service.ts`
+- [X] T041 [US4] Wire `POST /breeding-requests/:id/dispute` and `GET /disputes/:id` in `apps/api/src/modules/breeding-requests/breeding-requests.controller.ts`
+- [X] T042 [US4] Optional conversation freeze on dispute in `apps/api/src/modules/messaging/messaging.service.ts`
+- [X] T043 [US4] Emit audit `breeding_request.dispute_opened` and analytics `dispute_opened` on open
 
 **Checkpoint**: User Story 4 independently testable
 
@@ -157,14 +157,14 @@
 
 ### Tests for User Story 5
 
-- [ ] T044 [P] [US5] Outbox-in-same-transaction test for accept transition in `apps/api/test/breeding-workflow/notifications.test.ts`
-- [ ] T045 [P] [US5] Transactional category bypasses marketing opt-out test in `apps/api/test/breeding-workflow/notifications.test.ts`
+- [X] T044 [P] [US5] Outbox-in-same-transaction test for accept transition in `apps/api/test/breeding-workflow/notifications.test.ts`
+- [X] T045 [P] [US5] Transactional category bypasses marketing opt-out test in `apps/api/test/breeding-workflow/notifications.test.ts`
 
 ### Implementation for User Story 5
 
-- [ ] T046 [US5] Add en/ur breeding workflow templates (`breeding.request_received`, `breeding.request_accepted`, etc.) in `apps/api/src/modules/notifications/templates/breeding/`
-- [ ] T047 [US5] Implement `BreedingNotificationProducer` in `apps/api/src/modules/notifications/producers/breeding-notification.producer.ts`
-- [ ] T048 [US5] Hook notification producer into status transitions in `apps/api/src/modules/breeding-requests/breeding-requests.service.ts`
+- [X] T046 [US5] Add en/ur breeding workflow templates (`breeding.request_received`, `breeding.request_accepted`, etc.) in `apps/api/src/modules/notifications/templates/breeding/`
+- [X] T047 [US5] Implement `BreedingNotificationProducer` in `apps/api/src/modules/notifications/producers/breeding-notification.producer.ts`
+- [X] T048 [US5] Hook notification producer into status transitions in `apps/api/src/modules/breeding-requests/breeding-requests.service.ts`
 
 **Checkpoint**: All five user stories independently testable
 
@@ -174,11 +174,11 @@
 
 **Purpose**: Admin routes, analytics, OpenAPI, quickstart validation
 
-- [ ] T049 [P] Illegal transition 409 `INVALID_STATE_TRANSITION` integration tests in `apps/api/test/breeding-workflow/state-transitions.test.ts`
-- [ ] T050 [P] Implement admin conversation freeze `POST /admin/conversations/:id/freeze` in `apps/api/src/modules/messaging/messaging.controller.ts`
-- [ ] T051 [P] Emit analytics events `breeding_request_created`, `record_generated` in `apps/api/src/modules/breeding-requests/breeding-requests.service.ts`
-- [ ] T052 [P] Update OpenAPI drift tests for M4 endpoints in `apps/api/test/openapi.test.ts`
-- [ ] T053 Run quickstart validation scenarios in `specs/004-breeding-workflow/quickstart.md`
+- [X] T049 [P] Illegal transition 409 `INVALID_STATE_TRANSITION` integration tests in `apps/api/test/breeding-workflow/state-transitions.test.ts`
+- [X] T050 [P] Implement admin conversation freeze `POST /admin/conversations/:id/freeze` in `apps/api/src/modules/messaging/messaging.controller.ts`
+- [X] T051 [P] Emit analytics events `breeding_request_created`, `record_generated` in `apps/api/src/modules/breeding-requests/breeding-requests.service.ts`
+- [X] T052 [P] Update OpenAPI drift tests for M4 endpoints in `apps/api/test/openapi.test.ts`
+- [X] T053 Run quickstart validation scenarios in `specs/004-breeding-workflow/quickstart.md`
 
 ---
 

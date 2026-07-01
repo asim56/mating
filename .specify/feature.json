@@ -1,10 +1,11 @@
 {
-  "feature_directory": "specs/004-breeding-workflow",
-  "previous_feature": "specs/003-discovery",
+  "feature_directory": "specs/005-payments-trust",
+  "previous_feature": "specs/004-breeding-workflow",
   "milestone_status": {
     "M1": "complete",
     "M2": "complete",
     "M3": "complete",
-    "active": "M4"
+    "M4": "complete",
+    "active": "M5"
   }
 }

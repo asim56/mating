@@ -13,6 +13,8 @@ import { AdminModule } from './modules/identity/admin.module';
 import { BreedsModule } from './modules/breeds/breeds.module';
 import { HealthModule } from './modules/health/health.module';
 import { IdentityModule } from './modules/identity/identity.module';
+import { BreedingRequestsModule } from './modules/breeding-requests/breeding-requests.module';
+import { MessagingModule } from './modules/messaging/messaging.module';
 import { MatchingModule } from './modules/matching/matching.module';
 import { MarketplaceModule } from './modules/marketplace/marketplace.module';
 import { NotificationsModule } from './modules/notifications/notifications.module';
@@ -46,6 +48,8 @@ import { VerificationModule } from './modules/verification/verification.module';
     VerificationModule,
     MarketplaceModule,
     MatchingModule,
+    BreedingRequestsModule,
+    MessagingModule,
   ],
 })
 export class AppModule {}

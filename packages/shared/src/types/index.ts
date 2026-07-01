@@ -1,8 +1,8 @@
-import type { BREEDING_METHODS, REGIONS, SPECIES, USER_ROLES } from '../constants';
+import type { REGIONS, SPECIES, USER_ROLES } from '../constants';
 
 export type RegionCode = keyof typeof REGIONS;
 export type UserRole = (typeof USER_ROLES)[number];
-export type BreedingMethod = (typeof BREEDING_METHODS)[number];
+export type { BreedingMethod } from '../constants/breeding';
 export type Species = (typeof SPECIES)[number];
 
 export type CursorPaginationParams = {
@@ -38,3 +38,4 @@ export type SoftDeletable = {
 export * from './auth';
 export * from './animal';
 export * from './listing';
+export * from './breeding-request';
