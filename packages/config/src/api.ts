@@ -49,6 +49,10 @@ export const apiEnvSchema = z.object({
   SENTRY_DSN: z.string().url().optional().or(z.literal('')),
   POSTHOG_API_KEY: z.string().optional(),
   PAYMENT_WEBHOOK_SECRET: z.string().optional(),
+  PAYMENT_STUB_SECRET: z
+    .string()
+    .default('dev-payment-stub-secret')
+    .transform((value) => value || 'dev-payment-stub-secret'),
 });
 
 export type ApiEnv = z.infer<typeof apiEnvSchema>;

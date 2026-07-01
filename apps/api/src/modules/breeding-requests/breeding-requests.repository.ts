@@ -66,7 +66,7 @@ export class InMemoryBreedingRequestsRepository {
   async updateStatus(
     id: string,
     status: BreedingRequestStatus,
-    patch?: Partial<Pick<BreedingRequest, 'scheduledAt' | 'completedAt' | 'locationType' | 'locationDetails' | 'metadata'>>,
+    patch?: Partial<Pick<BreedingRequest, 'scheduledAt' | 'completedAt' | 'locationType' | 'locationDetails' | 'metadata' | 'feeAmount'>>,
   ): Promise<BreedingRequest | null> {
     const current = this.requests.get(id);
     if (!current || current.deletedAt) return null;
@@ -79,6 +79,7 @@ export class InMemoryBreedingRequestsRepository {
       ...(patch?.locationDetails !== undefined
         ? { locationDetails: patch.locationDetails }
         : {}),
+      ...(patch?.feeAmount !== undefined ? { feeAmount: patch.feeAmount } : {}),
       ...(patch?.metadata !== undefined
         ? { metadata: { ...current.metadata, ...patch.metadata } }
         : {}),

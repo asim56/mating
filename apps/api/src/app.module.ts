@@ -21,6 +21,8 @@ import { NotificationsModule } from './modules/notifications/notifications.modul
 import { PedigreeModule } from './modules/pedigree/pedigree.module';
 import { RegionsModule } from './modules/regions/regions.module';
 import { UsersModule } from './modules/users/users.module';
+import { PaymentsModule } from './modules/payments/payments.module';
+import { WalletLedgerModule } from './modules/wallet-ledger/wallet-ledger.module';
 import { VerificationModule } from './modules/verification/verification.module';
 
 @Module({
@@ -50,6 +52,8 @@ import { VerificationModule } from './modules/verification/verification.module';
     MatchingModule,
     BreedingRequestsModule,
     MessagingModule,
+    PaymentsModule,
+    WalletLedgerModule,
   ],
 })
 export class AppModule {}

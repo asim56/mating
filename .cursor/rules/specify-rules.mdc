@@ -3,9 +3,7 @@ alwaysApply: true
 ---
 
 <!-- SPECKIT START -->
-**Milestone status**: M1 (`001-identity-auth`) complete (65/65 tasks). M2 (`002-animal-supply`) complete (51/51 tasks). M3 (`003-discovery`) complete (55/55 tasks). M4 (`004-breeding-workflow`) complete (53/53 tasks). Active work: M5 (`005-payments-trust`).
-
 For additional context about technologies to be used, project structure,
 shell commands, and other important information, read the current plan
-at specs/005-payments-trust/plan.md
+at specs/006-trust-admin/plan.md
 <!-- SPECKIT END -->

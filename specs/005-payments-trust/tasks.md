@@ -28,10 +28,10 @@
 
 **Purpose**: Module registration, env config, and test harness
 
-- [ ] T001 Register `PaymentsModule` and `WalletLedgerModule` imports in `apps/api/src/app.module.ts`
-- [ ] T002 [P] Add `PAYMENT_STUB_SECRET` validation in `packages/config/src/env.ts`
-- [ ] T003 [P] Create payment test fixtures (payer, payee, breeding request) in `apps/api/test/payments/fixtures.ts`
-- [ ] T004 [P] Re-export payment enums and `PaymentProvider` from `packages/shared/src/index.ts`
+- [X] T001 Register `PaymentsModule` and `WalletLedgerModule` imports in `apps/api/src/app.module.ts`
+- [X] T002 [P] Add `PAYMENT_STUB_SECRET` validation in `packages/config/src/env.ts`
+- [X] T003 [P] Create payment test fixtures (payer, payee, breeding request) in `apps/api/test/payments/fixtures.ts`
+- [X] T004 [P] Re-export payment enums and `PaymentProvider` from `packages/shared/src/index.ts`
 
 ---
 
@@ -41,19 +41,19 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T005 Create `supabase/migrations/20250901000000_payment_intents_webhook_events.sql` per `data-model.md`
-- [ ] T006 Create `supabase/migrations/20250901000100_subscription_plans_subscriptions.sql` with regional plan seed data
-- [ ] T007 Create `supabase/migrations/20250901000200_boost_orders.sql`
-- [ ] T008 Create `supabase/migrations/20250901000300_ledger_entries.sql` with UPDATE/DELETE revoked for app roles
-- [ ] T009 Create `supabase/migrations/20250901000400_payout_accounts_payouts.sql`
-- [ ] T010 [P] Add `PaymentIntentStatus`, `PaymentPurpose`, `PaymentProviderCode` enums in `packages/shared/src/enums/payment-status.ts` and `packages/shared/src/enums/payment-provider.ts`
-- [ ] T011 [P] Add `LedgerAccountType`, `LedgerEntryType`, `RefundReasonCode`, `PAYMENT_PROOF_BUCKET` in `packages/shared/src/enums/ledger.ts`
-- [ ] T012 [P] Confirm `PaymentProvider` interface surface in `packages/shared/src/integrations/index.ts` matches adapter needs
-- [ ] T013 Write ledger UPDATE/DELETE denied DB test in `apps/api/test/wallet-ledger/ledger-immutability.test.ts`
-- [ ] T014 Scaffold `PaymentsModule` in `apps/api/src/modules/payments/payments.module.ts`
-- [ ] T015 [P] Scaffold `WalletLedgerModule` in `apps/api/src/modules/wallet-ledger/wallet-ledger.module.ts`
-- [ ] T016 [P] Implement `PaymentsRepository` for intents and webhook_events in `apps/api/src/modules/payments/payments.repository.ts`
-- [ ] T017 Implement balanced double-entry `LedgerWriterService` in `apps/api/src/modules/wallet-ledger/ledger-writer.service.ts`
+- [X] T005 Create `supabase/migrations/20250901000000_payment_intents_webhook_events.sql` per `data-model.md`
+- [X] T006 Create `supabase/migrations/20250901000100_subscription_plans_subscriptions.sql` with regional plan seed data
+- [X] T007 Create `supabase/migrations/20250901000200_boost_orders.sql`
+- [X] T008 Create `supabase/migrations/20250901000300_ledger_entries.sql` with UPDATE/DELETE revoked for app roles
+- [X] T009 Create `supabase/migrations/20250901000400_payout_accounts_payouts.sql`
+- [X] T010 [P] Add `PaymentIntentStatus`, `PaymentPurpose`, `PaymentProviderCode` enums in `packages/shared/src/enums/payment-status.ts` and `packages/shared/src/enums/payment-provider.ts`
+- [X] T011 [P] Add `LedgerAccountType`, `LedgerEntryType`, `RefundReasonCode`, `PAYMENT_PROOF_BUCKET` in `packages/shared/src/enums/ledger.ts`
+- [X] T012 [P] Confirm `PaymentProvider` interface surface in `packages/shared/src/integrations/index.ts` matches adapter needs
+- [X] T013 Write ledger UPDATE/DELETE denied DB test in `apps/api/test/wallet-ledger/ledger-immutability.test.ts`
+- [X] T014 Scaffold `PaymentsModule` in `apps/api/src/modules/payments/payments.module.ts`
+- [X] T015 [P] Scaffold `WalletLedgerModule` in `apps/api/src/modules/wallet-ledger/wallet-ledger.module.ts`
+- [X] T016 [P] Implement `PaymentsRepository` for intents and webhook_events in `apps/api/src/modules/payments/payments.repository.ts`
+- [X] T017 Implement balanced double-entry `LedgerWriterService` in `apps/api/src/modules/wallet-ledger/ledger-writer.service.ts`
 
 **Checkpoint**: Foundation ready — user story implementation can now begin
 
@@ -67,18 +67,18 @@
 
 ### Tests for User Story 1
 
-- [ ] T018 [P] [US1] Bank transfer flow contract test in `apps/api/test/payments/bank-transfer.test.ts`
-- [ ] T019 [P] [US1] Client-reported success ignored test (no confirm endpoint) in `apps/api/test/payments/payment-authority.test.ts`
+- [X] T018 [P] [US1] Bank transfer flow contract test in `apps/api/test/payments/bank-transfer.test.ts`
+- [X] T019 [P] [US1] Client-reported success ignored test (no confirm endpoint) in `apps/api/test/payments/payment-authority.test.ts`
 
 ### Implementation for User Story 1
 
-- [ ] T020 [P] [US1] Create payment intent DTOs in `apps/api/src/modules/payments/dto/`
-- [ ] T021 [US1] Implement idempotent intent create (duplicate key returns existing) in `apps/api/src/modules/payments/payments.service.ts`
-- [ ] T022 [US1] Wire `POST/GET /payments/intents` routes in `apps/api/src/modules/payments/payments.controller.ts`
-- [ ] T023 [US1] Implement proof upload-url and attach proof in `apps/api/src/modules/payments/proof.controller.ts`
-- [ ] T024 [US1] Implement admin reconcile with ledger write in `apps/api/src/modules/wallet-ledger/admin-payments.controller.ts`
-- [ ] T025 [US1] Emit audit `payment.intent_created`, `payment.proof_uploaded`, `payment.reconciled` in service layer
-- [ ] T026 [US1] Hook reconcile → breeding request `PaymentPending` → `Scheduled` in `apps/api/src/modules/payments/events/payment-confirmed.handler.ts`
+- [X] T020 [P] [US1] Create payment intent DTOs in `apps/api/src/modules/payments/dto/`
+- [X] T021 [US1] Implement idempotent intent create (duplicate key returns existing) in `apps/api/src/modules/payments/payments.service.ts`
+- [X] T022 [US1] Wire `POST/GET /payments/intents` routes in `apps/api/src/modules/payments/payments.controller.ts`
+- [X] T023 [US1] Implement proof upload-url and attach proof in `apps/api/src/modules/payments/proof.controller.ts`
+- [X] T024 [US1] Implement admin reconcile with ledger write in `apps/api/src/modules/wallet-ledger/admin-payments.controller.ts`
+- [X] T025 [US1] Emit audit `payment.intent_created`, `payment.proof_uploaded`, `payment.reconciled` in service layer
+- [X] T026 [US1] Hook reconcile → breeding request `PaymentPending` → `Scheduled` in `apps/api/src/modules/payments/events/payment-confirmed.handler.ts`
 
 **Checkpoint**: User Story 1 independently testable
 
@@ -92,17 +92,17 @@
 
 ### Tests for User Story 2
 
-- [ ] T027 [P] [US2] Webhook dedup idempotency test (SC-002) in `apps/api/test/payments/webhook-dedup.test.ts`
-- [ ] T028 [P] [US2] Invalid signature rejection test in `apps/api/test/payments/webhook-signature.test.ts`
+- [X] T027 [P] [US2] Webhook dedup idempotency test (SC-002) in `apps/api/test/payments/webhook-dedup.test.ts`
+- [X] T028 [P] [US2] Invalid signature rejection test in `apps/api/test/payments/webhook-signature.test.ts`
 
 ### Implementation for User Story 2
 
-- [ ] T029 [P] [US2] Implement `easypaisa.stub.ts` HMAC verify in `apps/api/src/modules/payments/providers/easypaisa.stub.ts`
-- [ ] T030 [P] [US2] Implement `jazzcash.stub.ts` and `stripe.stub.ts` in `apps/api/src/modules/payments/providers/`
-- [ ] T031 [US2] Implement `bank-transfer.adapter.ts` and `PaymentProviderFactory` in `apps/api/src/modules/payments/providers/payment-provider.factory.ts`
-- [ ] T032 [US2] Wire `POST /payments/:provider/webhook` in `apps/api/src/modules/payments/webhook.controller.ts`
-- [ ] T033 [US2] Process webhook in same transaction (webhook_events + intent confirm + ledger) in `apps/api/src/modules/payments/payments.service.ts`
-- [ ] T034 [US2] Invoke breeding-request transition on linked intent confirm in `apps/api/src/modules/payments/events/payment-confirmed.handler.ts`
+- [X] T029 [P] [US2] Implement `easypaisa.stub.ts` HMAC verify in `apps/api/src/modules/payments/providers/easypaisa.stub.ts`
+- [X] T030 [P] [US2] Implement `jazzcash.stub.ts` and `stripe.stub.ts` in `apps/api/src/modules/payments/providers/`
+- [X] T031 [US2] Implement `bank-transfer.adapter.ts` and `PaymentProviderFactory` in `apps/api/src/modules/payments/providers/payment-provider.factory.ts`
+- [X] T032 [US2] Wire `POST /payments/:provider/webhook` in `apps/api/src/modules/payments/webhook.controller.ts`
+- [X] T033 [US2] Process webhook in same transaction (webhook_events + intent confirm + ledger) in `apps/api/src/modules/payments/payments.service.ts`
+- [X] T034 [US2] Invoke breeding-request transition on linked intent confirm in `apps/api/src/modules/payments/events/payment-confirmed.handler.ts`
 
 **Checkpoint**: User Stories 1 and 2 independently testable
 
@@ -116,14 +116,14 @@
 
 ### Tests for User Story 3
 
-- [ ] T035 [P] [US3] Breeding payment state integration test in `apps/api/test/payments/breeding-payment-states.test.ts`
+- [X] T035 [P] [US3] Breeding payment state integration test in `apps/api/test/payments/breeding-payment-states.test.ts`
 
 ### Implementation for User Story 3
 
-- [ ] T036 [US3] Auto-transition to `PaymentPending` on accept when deposit/full fee required in `apps/api/src/modules/breeding-requests/breeding-requests.service.ts`
-- [ ] T037 [US3] Store `payment_intent_id` on request metadata during intent creation in `apps/api/src/modules/payments/payments.service.ts`
-- [ ] T038 [US3] Reject illegal `PaymentPending` → `Completed` without confirmed payment in `apps/api/src/modules/breeding-requests/breeding-requests.service.ts`
-- [ ] T039 [US3] Create breeding-fee intent on accept when policy requires payment in `apps/api/src/modules/payments/payments.service.ts`
+- [X] T036 [US3] Auto-transition to `PaymentPending` on accept when deposit/full fee required in `apps/api/src/modules/breeding-requests/breeding-requests.service.ts`
+- [X] T037 [US3] Store `payment_intent_id` on request metadata during intent creation in `apps/api/src/modules/payments/payments.service.ts`
+- [X] T038 [US3] Reject illegal `PaymentPending` → `Completed` without confirmed payment in `apps/api/src/modules/breeding-requests/breeding-requests.service.ts`
+- [X] T039 [US3] Create breeding-fee intent on accept when policy requires payment in `apps/api/src/modules/payments/payments.service.ts`
 
 **Checkpoint**: User Stories 1–3 independently testable
 
@@ -137,16 +137,16 @@
 
 ### Tests for User Story 4
 
-- [ ] T040 [P] [US4] Boost idempotency test (SC-005) in `apps/api/test/payments/boost-idempotency.test.ts`
-- [ ] T041 [P] [US4] Subscription create and cancel-at-period-end test in `apps/api/test/payments/subscriptions.test.ts`
+- [X] T040 [P] [US4] Boost idempotency test (SC-005) in `apps/api/test/payments/boost-idempotency.test.ts`
+- [X] T041 [P] [US4] Subscription create and cancel-at-period-end test in `apps/api/test/payments/subscriptions.test.ts`
 
 ### Implementation for User Story 4
 
-- [ ] T042 [US4] Implement `POST /listings/:id/boost` in `apps/api/src/modules/payments/boosts.controller.ts`
-- [ ] T043 [US4] Implement subscription routes in `apps/api/src/modules/payments/subscriptions.controller.ts`
-- [ ] T044 [US4] Activate boost order (`starts_at`/`ends_at`) on payment confirm in `apps/api/src/modules/payments/payments.service.ts`
-- [ ] T045 [US4] Track subscription periods and `cancel_at_period_end` in `apps/api/src/modules/payments/subscriptions.service.ts`
-- [ ] T046 [P] [US4] Wire `GET /subscription-plans` and `GET /boost-orders` list endpoints in controllers
+- [X] T042 [US4] Implement `POST /listings/:id/boost` in `apps/api/src/modules/payments/boosts.controller.ts`
+- [X] T043 [US4] Implement subscription routes in `apps/api/src/modules/payments/subscriptions.controller.ts`
+- [X] T044 [US4] Activate boost order (`starts_at`/`ends_at`) on payment confirm in `apps/api/src/modules/payments/payments.service.ts`
+- [X] T045 [US4] Track subscription periods and `cancel_at_period_end` in `apps/api/src/modules/payments/subscriptions.service.ts`
+- [X] T046 [P] [US4] Wire `GET /subscription-plans` and `GET /boost-orders` list endpoints in controllers
 
 **Checkpoint**: User Story 4 independently testable
 
@@ -160,15 +160,15 @@
 
 ### Tests for User Story 5
 
-- [ ] T047 [P] [US5] Payout idempotency and balance validation test in `apps/api/test/wallet-ledger/payouts.test.ts`
+- [X] T047 [P] [US5] Payout idempotency and balance validation test in `apps/api/test/wallet-ledger/payouts.test.ts`
 
 ### Implementation for User Story 5
 
-- [ ] T048 [US5] Implement payout account CRUD in `apps/api/src/modules/wallet-ledger/payouts.controller.ts`
-- [ ] T049 [US5] Implement payout request with available-balance check in `apps/api/src/modules/wallet-ledger/wallet-ledger.service.ts`
-- [ ] T050 [US5] Implement admin approve/reject payout in `apps/api/src/modules/wallet-ledger/admin-payments.controller.ts`
-- [ ] T051 [US5] Write payout release ledger entries and audit on approve in `apps/api/src/modules/wallet-ledger/ledger-writer.service.ts`
-- [ ] T052 [P] [US5] Implement `GET /ledger/me` and `GET /ledger/me/entries` in `apps/api/src/modules/wallet-ledger/wallet-ledger.service.ts`
+- [X] T048 [US5] Implement payout account CRUD in `apps/api/src/modules/wallet-ledger/payouts.controller.ts`
+- [X] T049 [US5] Implement payout request with available-balance check in `apps/api/src/modules/wallet-ledger/wallet-ledger.service.ts`
+- [X] T050 [US5] Implement admin approve/reject payout in `apps/api/src/modules/wallet-ledger/admin-payments.controller.ts`
+- [X] T051 [US5] Write payout release ledger entries and audit on approve in `apps/api/src/modules/wallet-ledger/ledger-writer.service.ts`
+- [X] T052 [P] [US5] Implement `GET /ledger/me` and `GET /ledger/me/entries` in `apps/api/src/modules/wallet-ledger/wallet-ledger.service.ts`
 
 **Checkpoint**: User Story 5 independently testable
 
@@ -182,14 +182,14 @@
 
 ### Tests for User Story 6
 
-- [ ] T053 [P] [US6] Verification submit and admin queue test in `apps/api/test/verification/verification-queue.test.ts`
+- [X] T053 [P] [US6] Verification submit and admin queue test in `apps/api/test/verification/verification-queue.test.ts`
 
 ### Implementation for User Story 6
 
-- [ ] T054 [US6] Extend `verification_requests` with `dimension` column in migration or alter script under `supabase/migrations/`
-- [ ] T055 [US6] Implement `POST /verifications` in `apps/api/src/modules/verification/verifications.controller.ts`
-- [ ] T056 [US6] Implement `GET /admin/verifications` pending queue in `apps/api/src/modules/verification/admin-verifications.controller.ts`
-- [ ] T057 [P] [US6] Implement `GET /verifications/me` in `apps/api/src/modules/verification/verifications.controller.ts`
+- [X] T054 [US6] Extend `verification_requests` with `dimension` column in migration or alter script under `supabase/migrations/`
+- [X] T055 [US6] Implement `POST /verifications` in `apps/api/src/modules/verification/verifications.controller.ts`
+- [X] T056 [US6] Implement `GET /admin/verifications` pending queue in `apps/api/src/modules/verification/admin-verifications.controller.ts`
+- [X] T057 [P] [US6] Implement `GET /verifications/me` in `apps/api/src/modules/verification/verifications.controller.ts`
 
 **Checkpoint**: All six user stories independently testable
 
@@ -199,12 +199,12 @@
 
 **Purpose**: Refunds, balanced ledger invariant, audit coverage, quickstart validation
 
-- [ ] T058 Implement admin refund with mandatory `reasonCode` in `apps/api/src/modules/wallet-ledger/admin-payments.controller.ts`
-- [ ] T059 [P] Refund without reason rejected test (SC-003) in `apps/api/test/wallet-ledger/refund-validation.test.ts`
-- [ ] T060 [P] Balanced double-entry invariant test in `apps/api/test/wallet-ledger/ledger-writer.test.ts`
-- [ ] T061 [P] Audit events for webhook, refund, payout, and verification actions across payment modules
-- [ ] T062 [P] Update OpenAPI drift tests for M5 endpoints in `apps/api/test/openapi.test.ts`
-- [ ] T063 Run quickstart validation scenarios in `specs/005-payments-trust/quickstart.md`
+- [X] T058 Implement admin refund with mandatory `reasonCode` in `apps/api/src/modules/wallet-ledger/admin-payments.controller.ts`
+- [X] T059 [P] Refund without reason rejected test (SC-003) in `apps/api/test/wallet-ledger/refund-validation.test.ts`
+- [X] T060 [P] Balanced double-entry invariant test in `apps/api/test/wallet-ledger/ledger-writer.test.ts`
+- [X] T061 [P] Audit events for webhook, refund, payout, and verification actions across payment modules
+- [X] T062 [P] Update OpenAPI drift tests for M5 endpoints in `apps/api/test/openapi.test.ts`
+- [X] T063 Run quickstart validation scenarios in `specs/005-payments-trust/quickstart.md`
 
 ---
 

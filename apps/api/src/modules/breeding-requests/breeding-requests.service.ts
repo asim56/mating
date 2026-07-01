@@ -154,7 +154,25 @@ export class BreedingRequestsService {
   async accept(id: string, user: AuthenticatedUser) {
     const request = await this.requireRequest(id);
     assertRecipient(request, user);
-    return this.transition(request, user, 'accept');
+    const accepted = await this.transition(request, user, 'accept');
+
+    const listing = accepted.listingId
+      ? await this.listings.findById(accepted.listingId)
+      : null;
+    const feeAmount = listing?.priceAmount ?? accepted.feeAmount;
+    if (feeAmount != null && feeAmount > 0) {
+      return this.transition(
+        { ...accepted, feeAmount, currencyCode: listing?.currencyCode ?? accepted.currencyCode },
+        user,
+        'initiate_payment',
+        {
+          feeAmount,
+          paymentRequired: true,
+          paymentPurpose: 'deposit',
+        },
+      );
+    }
+    return accepted;
   }
 
   async reject(id: string, user: AuthenticatedUser, reason?: string) {
@@ -195,6 +213,14 @@ export class BreedingRequestsService {
   async complete(id: string, user: AuthenticatedUser) {
     const request = await this.requireRequest(id);
     assertParticipant(request, user);
+    if (request.status === 'PaymentPending') {
+      throw new ApiError(
+        ERROR_CODES.INVALID_STATE_TRANSITION,
+        'Cannot complete without confirmed payment.',
+        HttpStatus.CONFLICT,
+        { from: request.status, action: 'complete' },
+      );
+    }
     return this.transition(request, user, 'complete', {
       completedAt: new Date().toISOString(),
     });
@@ -237,6 +263,7 @@ export class BreedingRequestsService {
     if (metadata.locationType) patch.locationType = metadata.locationType as BreedingRequest['locationType'];
     if (metadata.locationDetails) patch.locationDetails = metadata.locationDetails as Record<string, unknown>;
     if (metadata.reason) patch.metadata = { cancellationReason: metadata.reason };
+    if (metadata.feeAmount != null) patch.feeAmount = Number(metadata.feeAmount);
 
     const updated = await this.repo.updateStatus(request.id, toStatus, patch);
     if (!updated) {

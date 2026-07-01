@@ -4,7 +4,7 @@ import test from 'node:test';
 import { ApiError } from '../../src/common';
 import { RECIPIENT, REQUESTER, seedBreedingFixture } from './fixtures';
 
-test('recipient accept transitions to Accepted', async () => {
+test('recipient accept transitions to PaymentPending when listing has fee', async () => {
   const { breeding, female, male, listing } = await seedBreedingFixture();
   const created = await breeding.create(
     {
@@ -16,7 +16,7 @@ test('recipient accept transitions to Accepted', async () => {
     REQUESTER,
   );
   const accepted = await breeding.accept(created.id, RECIPIENT);
-  assert.equal(accepted.status, 'Accepted');
+  assert.equal(accepted.status, 'PaymentPending');
 });
 
 test('recipient reject transitions to Rejected', async () => {

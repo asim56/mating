@@ -38,6 +38,18 @@ test('OpenAPI document generates and serializes with the health path', async () 
       paths.some((path) => path.includes('/conversations')),
       `expected conversations paths, got: ${paths.join(', ')}`,
     );
+    assert.ok(
+      paths.some((path) => path.includes('/payments')),
+      `expected payments paths, got: ${paths.join(', ')}`,
+    );
+    assert.ok(
+      paths.some((path) => path.includes('/ledger')),
+      `expected ledger paths, got: ${paths.join(', ')}`,
+    );
+    assert.ok(
+      paths.some((path) => path.includes('/verifications')),
+      `expected verifications paths, got: ${paths.join(', ')}`,
+    );
   } finally {
     await app.close();
   }

@@ -1,11 +1,12 @@
 {
-  "feature_directory": "specs/005-payments-trust",
-  "previous_feature": "specs/004-breeding-workflow",
+  "feature_directory": "specs/006-trust-admin",
+  "previous_feature": "specs/005-payments-trust",
   "milestone_status": {
     "M1": "complete",
     "M2": "complete",
     "M3": "complete",
     "M4": "complete",
-    "active": "M5"
+    "M5": "complete",
+    "active": "M6"
   }
 }
